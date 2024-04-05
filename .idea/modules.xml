@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AdminPage/AdminPage.iml" filepath="$PROJECT_DIR$/AdminPage/AdminPage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Gate_Entry_Exit_System.iml" filepath="$PROJECT_DIR$/Gate_Entry_Exit_System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HomePage/HomePage.iml" filepath="$PROJECT_DIR$/HomePage/HomePage.iml" />
+    </modules>
+  </component>
+</project>
