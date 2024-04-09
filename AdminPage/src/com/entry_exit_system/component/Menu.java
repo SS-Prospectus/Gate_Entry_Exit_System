@@ -62,7 +62,7 @@ public class Menu extends javax.swing.JPanel {
 
             // Resize the icon to desired width and height
             java.awt.Image img = icon.getImage();
-            java.awt.Image scaledImg = img.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
+            java.awt.Image scaledImg = img.getScaledInstance(45, 45, java.awt.Image.SCALE_SMOOTH);
 
             // Set the scaled image as the icon
             jLabel1.setIcon(new javax.swing.ImageIcon(scaledImg));
@@ -70,7 +70,7 @@ public class Menu extends javax.swing.JPanel {
             System.err.println("Icon not found!");
         }
 
-        jLabel1.setText("BITS PILANI");
+        jLabel1.setText("  BITS PILANI");
 
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
