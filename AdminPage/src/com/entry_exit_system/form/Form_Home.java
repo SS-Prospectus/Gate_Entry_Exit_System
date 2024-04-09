@@ -12,7 +12,7 @@ public class Form_Home extends javax.swing.JPanel {
 
     public Form_Home() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.jpeg")), "Total Leaves", "$200000"));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total Leaves", "$200000"));
         card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total OutStation", "$15000"));
         card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Total Local", "$300000"));
         //  add row table
