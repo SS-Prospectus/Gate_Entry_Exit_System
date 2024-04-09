@@ -7,8 +7,6 @@ package com.entry_exit_system.main;
 
 import com.entry_exit_system.event.EventMenuSelected;
 import com.entry_exit_system.form.Form_1;
-import com.entry_exit_system.form.Form_2;
-import com.entry_exit_system.form.Form_3;
 import com.entry_exit_system.form.Form_Home;
 import java.awt.Color;
 import javax.swing.JComponent;
@@ -24,16 +22,12 @@ public class Main extends javax.swing.JFrame {
      */
     private Form_Home home;
     private Form_1 form1;
-    private Form_2 form2;
-    private Form_3 form3;
 
     public Main() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();
-        form2 = new Form_2();
-        form3 = new Form_3();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -42,10 +36,6 @@ public class Main extends javax.swing.JFrame {
                     setForm(home);
                 } else if (index == 1) {
                     setForm(form1);
-                } else if (index == 2) {
-                    setForm(form2);
-                } else if (index == 3) {
-                    setForm(form3);
                 }
             }
         });
