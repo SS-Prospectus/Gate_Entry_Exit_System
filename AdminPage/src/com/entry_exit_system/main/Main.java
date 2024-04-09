@@ -13,15 +13,8 @@ import com.entry_exit_system.form.Form_Home;
 import java.awt.Color;
 import javax.swing.JComponent;
 
-/**
- *
- * @author RAVEN
- */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
     private Form_Home home;
     private Form_1 form1;
     private Form_2 form2;
