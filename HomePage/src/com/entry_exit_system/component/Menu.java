@@ -51,8 +51,24 @@ public class Menu extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/entry_exit_system/icon/logo.png"))); // NOI18N
-        jLabel1.setText("Application");
+
+// Load the image icon
+        java.net.URL imgUrl = getClass().getResource("/com/entry_exit_system/icon/BITS_Pilani-Logo.png");
+        if (imgUrl != null) {
+            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imgUrl);
+
+            // Resize the icon to desired width and height
+            java.awt.Image img = icon.getImage();
+            java.awt.Image scaledImg = img.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
+
+            // Set the scaled image as the icon
+            jLabel1.setIcon(new javax.swing.ImageIcon(scaledImg));
+        } else {
+            System.err.println("Icon not found!");
+        }
+
+        jLabel1.setText("BITS PILANI");
+
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
