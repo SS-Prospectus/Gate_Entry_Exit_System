@@ -12,9 +12,9 @@ public class Form_Home extends javax.swing.JPanel {
 
     public Form_Home() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Stock Total", "$200000", "Increased by 60%"));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Profit", "$15000", "Increased by 25%"));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Unique Visitors", "$300000", "Increased by 70%"));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Total Leaves", "$200000"));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total OutStation", "$15000"));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total Local", "$300000"));
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -71,7 +71,7 @@ public class Form_Home extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel1.setText("Standard Table Design");
+        jLabel1.setText("Leaves");
 
         spTable.setBorder(null);
 
@@ -80,7 +80,7 @@ public class Form_Home extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Name", "Email", "User Type", "Joined", "Status"
+                "Name", "ID", "Date", "Reason", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {

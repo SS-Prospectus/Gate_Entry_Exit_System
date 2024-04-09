@@ -28,19 +28,19 @@ public class Model_Card {
         this.values = values;
     }
 
-    public String getDescription() {
-        return description;
-    }
+//    public String getDescription() {
+//        return description;
+//    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
-    public Model_Card(Icon icon, String title, String values, String description) {
+    public Model_Card(Icon icon, String title, String values) {
         this.icon = icon;
         this.title = title;
         this.values = values;
-        this.description = description;
+//        this.description = description;
     }
 
     public Model_Card() {
@@ -49,5 +49,5 @@ public class Model_Card {
     private Icon icon;
     private String title;
     private String values;
-    private String description;
+//    private String description;
 }

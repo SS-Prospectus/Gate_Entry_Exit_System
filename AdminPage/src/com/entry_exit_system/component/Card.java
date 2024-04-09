@@ -39,7 +39,7 @@ public class Card extends javax.swing.JPanel {
         lbIcon.setIcon(data.getIcon());
         lbTitle.setText(data.getTitle());
         lbValues.setText(data.getValues());
-        lbDescription.setText(data.getDescription());
+//        lbDescription.setText(data.getDescription());
     }
 
     @SuppressWarnings("unchecked")
@@ -49,7 +49,7 @@ public class Card extends javax.swing.JPanel {
         lbIcon = new javax.swing.JLabel();
         lbTitle = new javax.swing.JLabel();
         lbValues = new javax.swing.JLabel();
-        lbDescription = new javax.swing.JLabel();
+//        lbDescription = new javax.swing.JLabel();
 
         lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png"))); // NOI18N
 
@@ -61,9 +61,9 @@ public class Card extends javax.swing.JPanel {
         lbValues.setForeground(new java.awt.Color(255, 255, 255));
         lbValues.setText("Values");
 
-        lbDescription.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        lbDescription.setForeground(new java.awt.Color(255, 255, 255));
-        lbDescription.setText("Description");
+//        lbDescription.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+//        lbDescription.setForeground(new java.awt.Color(255, 255, 255));
+//        lbDescription.setText("Description");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -72,7 +72,7 @@ public class Card extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbDescription)
+//                    .addComponent(lbDescription)
                     .addComponent(lbValues)
                     .addComponent(lbTitle)
                     .addComponent(lbIcon))
@@ -88,7 +88,7 @@ public class Card extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbValues)
                 .addGap(18, 18, 18)
-                .addComponent(lbDescription)
+//                .addComponent(lbDescription)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -107,7 +107,7 @@ public class Card extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lbDescription;
+//    private javax.swing.JLabel lbDescription;
     private javax.swing.JLabel lbIcon;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbValues;
