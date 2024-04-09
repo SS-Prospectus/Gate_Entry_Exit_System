@@ -2,10 +2,12 @@ package com.entry_exit_system.model;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.*;
 
 public class Model_Menu {
 
     public String getIcon() {
+
         return icon;
     }
 
