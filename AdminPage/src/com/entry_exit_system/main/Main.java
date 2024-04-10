@@ -10,6 +10,8 @@ import com.entry_exit_system.form.Form_1;
 import com.entry_exit_system.form.Form_2;
 import com.entry_exit_system.form.Form_3;
 import com.entry_exit_system.form.Form_Home;
+import com.entry_exit_system.jdbc.JDBC;
+
 import java.awt.Color;
 import javax.swing.JComponent;
 
@@ -22,6 +24,7 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        JDBC.JDBCinitialise();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();
@@ -149,6 +152,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.entry_exit_system.component.Header header2;

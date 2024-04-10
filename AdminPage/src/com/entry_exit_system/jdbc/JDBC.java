@@ -1,16 +1,20 @@
 package com.entry_exit_system.jdbc;
 
+import com.entry_exit_system.model.PendingLeaveModel;
 import com.mysql.cj.jdbc.JdbcConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class JDBC {
-    public static void main(String[] args) {
-        Connection DBConnection;
+    static Connection connection;
+
+    public static void JDBCinitialise() {
+
         try {
-            DBConnection = initConnection();
+            connection = initConnection();
             try {
-                runTestQuery(DBConnection);
+                runTestQuery(connection);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -45,5 +49,25 @@ public class JDBC {
             System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
 //            System.out.println("Name: " + name + ", Banned: " + isBanned);
         }
+    }
+
+    public static ArrayList<PendingLeaveModel> getPendingLeavesFromDB() throws SQLException {
+        String sql = "SELECT * FROM Student";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<PendingLeaveModel> pendingLeaveList= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("ID");
+            String name = resultSet.getString("Name");
+            String inOut = resultSet.getString("campuss_in_out");
+            boolean isBanned = resultSet.getBoolean("banned");
+            PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, "", "", PendingLeaveModel.Status.Approved);
+            pendingLeaveList.add(pendingLeave);
+
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+        }
+        return pendingLeaveList;
     }
 }
