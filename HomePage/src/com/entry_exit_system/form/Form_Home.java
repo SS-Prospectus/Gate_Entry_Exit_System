@@ -9,6 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
 public class Form_Home extends javax.swing.JPanel {
     private JTextField idTextField;
@@ -19,11 +24,28 @@ public class Form_Home extends javax.swing.JPanel {
         initComponents();
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Define the gradient colors
+        Color color1 = new Color(28, 181, 224); // Color.decode("#1CB5E0") as RGB
+        Color color2 = new Color(0, 0, 70); // Light blue
+
+        // Create the gradient
+        GradientPaint gradient = new GradientPaint(0, 0, color1, 0, getHeight(), color2);
+
+        // Apply the gradient
+        g2d.setPaint(gradient);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+    }
+
     private void addComponents() {
         // Display title as simple text
         JLabel TitleLabel = new JLabel("Local leave");
         TitleLabel.setFont(new Font("sansserif", Font.BOLD, 40));
-        TitleLabel.setForeground(Color.darkGray);
+        TitleLabel.setForeground(new Color(250, 250, 250));
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TitleLabel.setBounds(300, 10, 350, 120);
         this.add(TitleLabel);
@@ -42,15 +64,17 @@ public class Form_Home extends javax.swing.JPanel {
         idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
         idTextField.setBounds(110, 330, 500, 55);
         idTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
+        idTextField.setBackground(new Color(250, 250, 250));
+        idTextField.setOpaque(false);
         idTextField.setSelectionColor(new Color(220, 204, 182));
 //        PromptSupport.setPrompt("ID", idTextField);
         this.add(idTextField);
 
         // Style Log Out button
-        logoutButton = new JButton("Log Out");
+        logoutButton = new JButton("ENTER");
         logoutButton.setFont(new Font("sansserif", Font.PLAIN, 40));
         logoutButton.setBounds(630, 330, 250, 55);
-        logoutButton.setBackground(Color.BLUE);
+        logoutButton.setBackground(new Color(46, 130, 239));
         logoutButton.setForeground(Color.WHITE);
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

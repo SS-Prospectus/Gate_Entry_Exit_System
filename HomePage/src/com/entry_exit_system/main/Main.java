@@ -8,7 +8,8 @@ package com.entry_exit_system.main;
 import com.entry_exit_system.event.EventMenuSelected;
 import com.entry_exit_system.form.Form_1;
 import com.entry_exit_system.form.Form_Home;
-import java.awt.Color;
+
+import java.awt.*;
 import javax.swing.JComponent;
 
 public class Main extends javax.swing.JFrame {
@@ -57,10 +58,12 @@ public class Main extends javax.swing.JFrame {
 
         panelBorder1.setBackground(new java.awt.Color(242, 242, 242));
 
-        header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        header2.setFont(new java.awt.Font("sansserif", 0, 1)); // NOI18N
 
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new java.awt.BorderLayout());
+
+        header2.setPreferredSize(new Dimension(header2.getWidth(), 0));
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -98,11 +101,8 @@ public class Main extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponent
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

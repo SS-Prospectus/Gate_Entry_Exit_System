@@ -24,7 +24,7 @@ public class JDBC {
     public static Connection initConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/Gate_entry_System";
         String username = "root";
-        String password = "root12345";
+        String password = "suryash_sql";
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
