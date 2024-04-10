@@ -66,16 +66,17 @@ public class Form_Home extends javax.swing.JPanel {
         idTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
         idTextField.setBackground(new Color(250, 250, 250));
         idTextField.setOpaque(false);
+        idTextField.setForeground(new Color(20, 50, 110));
         idTextField.setSelectionColor(new Color(220, 204, 182));
 //        PromptSupport.setPrompt("ID", idTextField);
         this.add(idTextField);
 
         // Style Log Out button
         logoutButton = new JButton("ENTER");
-        logoutButton.setFont(new Font("sansserif", Font.PLAIN, 40));
+        logoutButton.setFont(new Font("sansserif", Font.PLAIN, 30));
         logoutButton.setBounds(630, 330, 250, 55);
-        logoutButton.setBackground(new Color(46, 130, 239));
-        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setForeground(new Color(20, 50, 110));
+        logoutButton.setBackground(new Color(10, 215, 255));
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Add logout functionality here
