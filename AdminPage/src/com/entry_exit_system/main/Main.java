@@ -6,10 +6,7 @@
 package com.entry_exit_system.main;
 
 import com.entry_exit_system.event.EventMenuSelected;
-import com.entry_exit_system.form.Form_1;
-import com.entry_exit_system.form.Form_2;
-import com.entry_exit_system.form.Form_3;
-import com.entry_exit_system.form.Form_Home;
+import com.entry_exit_system.form.*;
 import com.entry_exit_system.jdbc.JDBC;
 
 import java.awt.Color;
@@ -22,6 +19,8 @@ public class Main extends javax.swing.JFrame {
     private Form_2 form2;
     private Form_3 form3;
 
+    private Form_4 form4;
+
     public Main() {
         initComponents();
         JDBC.JDBCinitialise();
@@ -30,6 +29,7 @@ public class Main extends javax.swing.JFrame {
         form1 = new Form_1();
         form2 = new Form_2();
         form3 = new Form_3();
+        form4 =new Form_4();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -42,6 +42,8 @@ public class Main extends javax.swing.JFrame {
                     setForm(form2);
                 } else if (index == 3) {
                     setForm(form3);
+                } else if (index == 4) {
+                    setForm(form4);
                 }
             }
         });

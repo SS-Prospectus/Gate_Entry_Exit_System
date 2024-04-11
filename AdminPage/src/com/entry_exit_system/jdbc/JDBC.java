@@ -28,7 +28,7 @@ public class JDBC {
     public static Connection initConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/Gate_entry_System";
         String username = "root";
-        String password = "suryash_sql";
+        String password = "root@123";
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
@@ -65,8 +65,8 @@ public class JDBC {
             PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, "", "", PendingLeaveModel.Status.Approved);
             pendingLeaveList.add(pendingLeave);
 
-//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
-//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+            System.out.println("Name: " + name + ", Banned: " + isBanned);
         }
         return pendingLeaveList;
     }
