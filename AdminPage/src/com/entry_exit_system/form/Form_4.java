@@ -1,5 +1,6 @@
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.jdbc.JDBC;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
@@ -8,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import static com.entry_exit_system.jdbc.JDBC.connection;
 
 /**
  * This class represents Form 4 of the entry-exit system.
@@ -23,6 +28,7 @@ public class Form_4 extends javax.swing.JPanel {
      */
     public Form_4() {
         initComponents();
+        populateTimeFields();
     }
 
     @SuppressWarnings("unchecked")
@@ -65,14 +71,38 @@ public class Form_4 extends javax.swing.JPanel {
         });
 
         JButton addButton = new JButton("Set Time");
+//        addButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                // Reset the text fields to their original values
+//                txtInTime.setText("In Time");
+//                txtOutTime.setText("Out Time");
+//
+//                // Repopulate the time fields with the first value from the SQL database
+//                populateTimeFields();
+//            }
+//        });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Reset the text fields to their original values
-                txtInTime.setText("In Time");
-                txtOutTime.setText("Out Time");
+                // Retrieve the new values from the text fields
+                String newInTime = txtInTime.getText();
+                String newOutTime = txtOutTime.getText();
+
+                try {
+                    // Update the SQL database with the new values
+                    JDBC.updateTimeLimits(newInTime, newOutTime);
+
+                    // Update the text fields with the new values from the database
+                    populateTimeFields();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    // Handle any SQLException, such as displaying an error message
+                }
             }
         });
+
+
 
         panel = new javax.swing.JLayeredPane();
         panelBorder1 = new com.entry_exit_system.swing.PanelBorder();
@@ -134,6 +164,29 @@ public class Form_4 extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
     }
+
+    private void populateTimeFields() {
+        try {
+            // Call the method from JDBC class to retrieve time values
+            List<TimeLimits> timeLimitsList = JDBC.runTest(connection);
+
+            // Assuming there's only one record in the result set, get the first item
+            if (!timeLimitsList.isEmpty()) {
+                TimeLimits timeLimits = timeLimitsList.get(0);
+
+                // Set the retrieved values to the text fields
+                txtInTime.setText(timeLimits.getInTime());
+                txtOutTime.setText(timeLimits.getOutTime());
+            } else {
+                // If no records are retrieved, set default values
+                txtInTime.setText("In Time");
+                txtOutTime.setText("Out Time");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Variables declaration - do not modify
     private javax.swing.JLayeredPane panel;
