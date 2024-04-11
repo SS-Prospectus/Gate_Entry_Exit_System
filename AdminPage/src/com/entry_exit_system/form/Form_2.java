@@ -5,14 +5,22 @@
  */
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.Model_Card;
+import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,32 +31,16 @@ public class Form_2 extends javax.swing.JPanel {
     /**
      * Creates new form Form_1
      */
+    public ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList;
     public Form_2() {
         initComponents();
-//        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Stock Total", "$200000", "Increased by 60%"));
-//        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Profit", "$15000", "Increased by 25%"));
-//        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Unique Visitors", "$300000", "Increased by 70%"));
-        //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        table.addRow(new Object[]{"Mike Bhand", "mikebhand@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
+        penalizedLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.name, pendingLeave.id, pendingLeave.date, pendingLeave.reason} );});
     }
 
     // Add JTextField declarations
@@ -65,23 +57,91 @@ public class Form_2 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
+
         // Inside initComponents() method, after spTable.setViewportView(table):
-        txtName = new javax.swing.JTextField("Name");
-        txtID = new javax.swing.JTextField("ID");
+        txtName = new javax.swing.JTextField("Penalty_id");
+        txtID = new javax.swing.JTextField("Student_ID");
         txtReason = new javax.swing.JTextField("Reason");
         txtDate = new javax.swing.JTextField("Date");
 
         JButton addButton = new JButton("Add Data");
+//        addButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                // Reset the text fields to their original values
+//                txtName.setText("Name");
+//                txtID.setText("ID");
+//                txtReason.setText("Reason");
+//                txtDate.setText("Date");
+//            }
+//        });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Reset the text fields to their original values
-                txtName.setText("Name");
-                txtID.setText("ID");
-                txtReason.setText("Reason");
-                txtDate.setText("Date");
+                // Retrieve values from text fields
+                String name = txtName.getText();
+                String id = txtID.getText();
+                String date = txtDate.getText();
+                String reason = txtReason.getText();
+
+                // Establish connection to SQL database
+                Connection conn = null;
+                PreparedStatement pstmt = null;
+
+                try {
+                    // Replace "url", "username", and "password" with your database connection details
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", "root", "root@123");
+
+                    // Construct SQL INSERT statement
+                    String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, name);
+                    pstmt.setString(2, id);
+                    pstmt.setString(3, date);
+                    pstmt.setString(4, reason);
+
+                    // Execute INSERT statement
+                    pstmt.executeUpdate();
+
+                    // Clear text fields after successful insertion
+                    txtName.setText("Penalty_id");
+                    txtID.setText("Student_ID");
+                    txtDate.setText("Date");
+                    txtReason.setText("Reason");
+
+                    // Retrieve updated dataset from the database
+                    penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
+
+                    // Update table model with new dataset
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.setRowCount(0); // Clear existing rows
+                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                    }
+
+                    // Optionally, display a success message to the user
+                    JOptionPane.showMessageDialog(null, "Data added successfully!");
+
+                } catch (SQLException ex) {
+                    // Handle database errors
+                    ex.printStackTrace();
+                    // Optionally, display an error message to the user
+                    JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database.");
+
+                } finally {
+                    // Close PreparedStatement and Connection
+                    try {
+                        if (pstmt != null) pstmt.close();
+                        if (conn != null) conn.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
+
+
 
 
 
@@ -123,7 +183,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Name", "ID", "Date", "Reason"
+                        "Penalty_id", "Student_ID", "Date", "Reason"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
