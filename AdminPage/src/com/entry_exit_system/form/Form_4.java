@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static com.entry_exit_system.jdbc.JDBC.connection;
@@ -71,17 +74,6 @@ public class Form_4 extends javax.swing.JPanel {
         });
 
         JButton addButton = new JButton("Set Time");
-//        addButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Reset the text fields to their original values
-//                txtInTime.setText("In Time");
-//                txtOutTime.setText("Out Time");
-//
-//                // Repopulate the time fields with the first value from the SQL database
-//                populateTimeFields();
-//            }
-//        });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,17 +82,27 @@ public class Form_4 extends javax.swing.JPanel {
                 String newOutTime = txtOutTime.getText();
 
                 try {
-                    // Update the SQL database with the new values
-                    JDBC.updateTimeLimits(newInTime, newOutTime);
 
-                    // Update the text fields with the new values from the database
-                    populateTimeFields();
+                    boolean isValidInput = validateInput(newInTime, newOutTime);
+
+                    if (isValidInput) {
+                        JDBC.updateTimeLimits(newInTime, newOutTime);
+
+                        populateTimeFields();
+
+                        showMessageDialog(Form_4.this, "The Time is Set", "Bingo", JOptionPane.INFORMATION_MESSAGE, Color.GREEN);
+                    } else {
+                        showMessageDialog(Form_4.this, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE, Color.RED);
+                    }
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     // Handle any SQLException, such as displaying an error message
                 }
             }
         });
+
+
 
 
 
@@ -185,6 +187,54 @@ public class Form_4 extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showMessageDialog(Component parentComponent, String message, String title, int messageType, Color backgroundColor) {
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        label.setForeground(Color.WHITE);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(backgroundColor);
+        panel.add(label);
+
+        // Create a custom option pane with the specified background color
+        JOptionPane optionPane = new JOptionPane(panel, messageType);
+        optionPane.setBackground(backgroundColor);
+
+        // Set background color recursively
+        setBackgroundRecursively(optionPane, backgroundColor);
+
+        // Create a custom dialog with the modified option pane
+        JDialog dialog = optionPane.createDialog(parentComponent, title);
+        dialog.setVisible(true);
+    }
+
+    private void setBackgroundRecursively(Container container, Color color) {
+        container.setBackground(color);
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof Container) {
+                setBackgroundRecursively((Container) component, color);
+            }
+            component.setBackground(color);
+        }
+    }
+
+    private boolean validateInput(String inTime, String outTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+        try {
+            // Attempt to parse the input strings into Date objects
+            Date inTimeDate = dateFormat.parse(inTime);
+            Date outTimeDate = dateFormat.parse(outTime);
+
+            // If parsing succeeds, the input strings are valid dates
+            return true;
+        } catch (ParseException e) {
+            // If parsing fails, the input strings are not valid dates
+            return false;
+        } // Change this to your validation result
     }
 
 

@@ -1,8 +1,9 @@
 package com.entry_exit_system.jdbc;
 
 import com.entry_exit_system.form.TimeLimits;
+import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.PendingLeaveModel;
-import com.mysql.cj.jdbc.JdbcConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,26 @@ public class JDBC {
         }
         return pendingLeaveList;
     }
+
+    public static ArrayList<List_Of_Penalized_Students_Model> getPenalizedStudents() throws SQLException {
+        String sql = "SELECT * FROM Penalties";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("student_id");
+            String name = resultSet.getString("penalty_id");
+            String date = resultSet.getString("date_penalized");
+            String reason = resultSet.getString("reason");
+            List_Of_Penalized_Students_Model pendingLeave=new List_Of_Penalized_Students_Model(name, id, date, reason);
+            penalizedLeaveList.add(pendingLeave);
+
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+        }
+        return penalizedLeaveList;
+    }
     public static List<TimeLimits> runTest(Connection connection) throws SQLException {
         String sql = "SELECT in_time_limit, out_time FROM TimeLimits";
         Statement statement = connection.createStatement();
@@ -88,32 +109,7 @@ public class JDBC {
 
         return timeLimitsList;
     }
-    public static void updateInTime(String newInTime) throws SQLException {
-        String sql = "UPDATE TimeLimits SET in_time_limit = ?"; // SQL query to update in_time
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, newInTime);
 
-        // Execute the update query
-        int rowsUpdated = statement.executeUpdate();
-        if (rowsUpdated > 0) {
-            System.out.println("In Time updated successfully!");
-        } else {
-            System.out.println("Failed to update In Time!");
-        }
-    }
-    public static void updateOutTime(String newOutTime) throws SQLException {
-        String sql = "UPDATE TimeLimits SET out_time = ?"; // SQL query to update out_time
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, newOutTime);
-
-        // Execute the update query
-        int rowsUpdated = statement.executeUpdate();
-        if (rowsUpdated > 0) {
-            System.out.println("Out Time updated successfully!");
-        } else {
-            System.out.println("Failed to update Out Time!");
-        }
-    }
     public static void updateTimeLimits(String newInTime, String newOutTime) throws SQLException {
         // Define your SQL UPDATE statement
         String sql = "UPDATE TimeLimits SET in_time_limit = ?, out_time = ?";
