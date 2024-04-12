@@ -5,20 +5,29 @@
  */
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.jdbc.JDBC;
 import com.entry_exit_system.model.Model_Card;
+import com.entry_exit_system.model.PenaltyBanModel;
+import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author RAVEN
  */
 public class Form_3 extends javax.swing.JPanel {
+    public ArrayList<PenaltyBanModel> bannedStudentsList;
 
     /**
      * Creates new form Form_1
@@ -31,27 +40,13 @@ public class Form_3 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        table.addRow(new Object[]{"Mike Bhand", "mikebhand@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
+        bannedStudentsList.forEach((bannedStudent)->{table.addRow(new Object[]{bannedStudent.id, bannedStudent.name, bannedStudent.date, bannedStudent.reason} );});
+
     }
 
     // Add JTextField declarations
-    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtReason;
-    private javax.swing.JTextField txtDate;
 
 
 
@@ -60,22 +55,42 @@ public class Form_3 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bannedStudentsList = BannedStudentsHandler.getBannedStudents();
+
 
         // Inside initComponents() method, after spTable.setViewportView(table):
-        txtName = new javax.swing.JTextField("Name");
         txtID = new javax.swing.JTextField("ID");
         txtReason = new javax.swing.JTextField("Reason");
-        txtDate = new javax.swing.JTextField("Date");
 
         JButton addButton = new JButton("Add Data");
+
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Reset the text fields to their original values
-                txtName.setText("Name");
-                txtID.setText("ID");
+                String id = txtID.getText();
+                String reason = txtReason.getText();
+
+                // Clear text fields after successful insertion
+                txtID.setText("Student ID");
                 txtReason.setText("Reason");
-                txtDate.setText("Date");
+
+                BannedStudentsHandler.addBan(id, reason);
+
+                bannedStudentsList = BannedStudentsHandler.getBannedStudents();
+
+                // Update table model with new dataset
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+                for (PenaltyBanModel leave : bannedStudentsList) {
+                    model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason});
+                }
+
+                // Optionally, display a success message to the user
+                JOptionPane.showMessageDialog(null, "Data added successfully!");
+
+
             }
         });
 
@@ -119,7 +134,7 @@ public class Form_3 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Name", "ID", "Date", "Reason"
+                        "ID", "Name", "Date", "Reason"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -185,12 +200,10 @@ public class Form_3 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                                                 .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(20, 20, 20))
         );
@@ -203,9 +216,7 @@ public class Form_3 extends javax.swing.JPanel {
                                 .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20))
         );
@@ -219,12 +230,10 @@ public class Form_3 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                                                 .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(addButton)) // Add the button here
                                 .addGap(20, 20, 20))
@@ -239,9 +248,7 @@ public class Form_3 extends javax.swing.JPanel {
                                 .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(addButton) // Add the button here
@@ -252,13 +259,7 @@ public class Form_3 extends javax.swing.JPanel {
         // Inside the initComponents() method, after initializing the text fields:
 
 // Add FocusListener to clear default text when clicked
-        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtName.getText().equals("Name")) {
-                    txtName.setText("");
-                }
-            }
-        });
+
 
         txtID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -276,13 +277,7 @@ public class Form_3 extends javax.swing.JPanel {
             }
         });
 
-        txtDate.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtDate.getText().equals("Date")) {
-                    txtDate.setText("");
-                }
-            }
-        });
+
 
 
     }// </editor-fold>//GEN-END:initComponents
