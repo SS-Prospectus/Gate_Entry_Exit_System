@@ -50,13 +50,10 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JTextField txtReason;
     private javax.swing.JTextField txtDate;
 
-
-
-
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
 
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
 
@@ -92,7 +89,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 try {
                     // Replace "url", "username", and "password" with your database connection details
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", "root", "suryash_sql");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", "root", "root@123");
                     // Construct SQL INSERT statement
                     String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
                     pstmt = conn.prepareStatement(sql);
@@ -142,9 +139,6 @@ public class Form_2 extends javax.swing.JPanel {
         });
 
 
-
-
-
         panel = new javax.swing.JLayeredPane();
         card1 = new com.entry_exit_system.component.Card();
         card2 = new com.entry_exit_system.component.Card();
@@ -157,18 +151,6 @@ public class Form_2 extends javax.swing.JPanel {
         setBackground(new java.awt.Color(242, 242, 242));
 
         panel.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
-
-//        card1.setColor1(new java.awt.Color(142, 142, 250));
-//        card1.setColor2(new java.awt.Color(123, 123, 245));
-//        panel.add(card1);
-//
-//        card2.setColor1(new java.awt.Color(186, 123, 247));
-//        card2.setColor2(new java.awt.Color(167, 94, 236));
-//        panel.add(card2);
-//
-//        card3.setColor1(new java.awt.Color(241, 208, 62));
-//        card3.setColor2(new java.awt.Color(211, 184, 61));
-//        panel.add(card3);
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -239,8 +221,6 @@ public class Form_2 extends javax.swing.JPanel {
                                 .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(20, 20, 20))
         );
-        // Modify panelBorder1Layout
-//        javax.swing.GroupLayout panelBorderLayout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1Layout.setHorizontalGroup(
                 panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panelBorder1Layout.createSequentialGroup()
@@ -273,8 +253,6 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20))
         );
-
-
         panelBorder1Layout.setHorizontalGroup(
                 panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panelBorder1Layout.createSequentialGroup()
@@ -312,10 +290,6 @@ public class Form_2 extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
 
-
-        // Inside the initComponents() method, after initializing the text fields:
-
-// Add FocusListener to clear default text when clicked
         txtName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtName.getText().equals("Penalty_id")) {
@@ -347,6 +321,84 @@ public class Form_2 extends javax.swing.JPanel {
                 }
             }
         });
+//        // Inside initComponents() method, after initializing other components:
+//        JTextField searchField = new JTextField("Search by Student_ID");
+//        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+//            public void focusGained(java.awt.event.FocusEvent evt) {
+//                if (searchField.getText().equals("Search by Student_ID")) {
+//                    searchField.setText("");
+//                }
+//            }
+//        });
+//
+//        JButton searchButton = new JButton("Search");
+//        searchButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String searchText = searchField.getText();
+//                if (!searchText.isEmpty() && !searchText.equals("Search by Student_ID")) {
+//                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+//                    model.setRowCount(0); // Clear existing rows
+//                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+//                        if (leave.id.equals(searchText)) {
+//                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//
+//// Add the search components to the panel
+//        panel.add(searchField);
+//        panel.add(searchButton);
+
+
+        // Inside initComponents() method, after initializing other components:
+        final JTextField searchField = new JTextField("Search by Student_ID");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Search by Student_ID")) {
+                    searchField.setText("");
+                }
+            }
+        });
+
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = searchField.getText();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+
+                // If the search text is empty or equals default text, show full table
+                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                    }
+                    // Reset search field to default text
+                    searchField.setText("Search by Student_ID");
+                } else {
+                    // Search for matching Student_ID
+                    boolean found = false;
+                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                        if (leave.id.equals(searchText)) {
+                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                            found = true;
+                        }
+                    }
+                    // If no matching Student_ID is found, display message
+                    if (!found) {
+                        JOptionPane.showMessageDialog(null, "No records found for the given Student_ID.");
+                    }
+                }
+            }
+        });
+
+// Add the search components to the panel
+        panel.add(searchField);
+        panel.add(searchButton);
+
 
 
     }// </editor-fold>//GEN-END:initComponents
