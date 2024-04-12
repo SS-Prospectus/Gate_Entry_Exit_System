@@ -13,6 +13,8 @@ import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -321,8 +323,73 @@ public class Form_2 extends javax.swing.JPanel {
                 }
             }
         });
+        // Inside initComponents() method, after initializing other components:
+        // Inside initComponents() method, after initializing other components:
+        final JTextField searchField = new JTextField("Search by Student_ID");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Search by Student_ID")) {
+                    searchField.setText("");
+                }
+            }
+        });
+
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Not used for plain text documents
+            }
+
+            private void updateTable() {
+                String searchText = searchField.getText();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+
+                // If the search text is empty or equals default text, show full table
+                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                    }
+                } else {
+                    // Search for matching Student_ID
+                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                        if (leave.id.equals(searchText)) {
+                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                        }
+                    }
+                }
+            }
+        });
+
+// Add the search component to the panel
+        panel.add(searchField);
+
+// Create clear button
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchField.setText("Search by Student_ID"); // Clear the search field
+            }
+        });
+
+// Add the clear button to the panel
+        panel.add(clearButton);
+
+
+
 //        // Inside initComponents() method, after initializing other components:
-//        JTextField searchField = new JTextField("Search by Student_ID");
+//        final JTextField searchField = new JTextField("Search by Student_ID");
 //        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
 //            public void focusGained(java.awt.event.FocusEvent evt) {
 //                if (searchField.getText().equals("Search by Student_ID")) {
@@ -336,13 +403,28 @@ public class Form_2 extends javax.swing.JPanel {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
 //                String searchText = searchField.getText();
-//                if (!searchText.isEmpty() && !searchText.equals("Search by Student_ID")) {
-//                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-//                    model.setRowCount(0); // Clear existing rows
+//                DefaultTableModel model = (DefaultTableModel) table.getModel();
+//                model.setRowCount(0); // Clear existing rows
+//
+//                // If the search text is empty or equals default text, show full table
+//                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+//                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+//                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+//                    }
+//                    // Reset search field to default text
+//                    searchField.setText("Search by Student_ID");
+//                } else {
+//                    // Search for matching Student_ID
+//                    boolean found = false;
 //                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
 //                        if (leave.id.equals(searchText)) {
 //                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+//                            found = true;
 //                        }
+//                    }
+//                    // If no matching Student_ID is found, display message
+//                    if (!found) {
+//                        JOptionPane.showMessageDialog(null, "No records found for the given Student_ID.");
 //                    }
 //                }
 //            }
@@ -351,53 +433,6 @@ public class Form_2 extends javax.swing.JPanel {
 //// Add the search components to the panel
 //        panel.add(searchField);
 //        panel.add(searchButton);
-
-
-        // Inside initComponents() method, after initializing other components:
-        final JTextField searchField = new JTextField("Search by Student_ID");
-        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
-                    searchField.setText("");
-                }
-            }
-        });
-
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchText = searchField.getText();
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setRowCount(0); // Clear existing rows
-
-                // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
-                    }
-                    // Reset search field to default text
-                    searchField.setText("Search by Student_ID");
-                } else {
-                    // Search for matching Student_ID
-                    boolean found = false;
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-                        if (leave.id.equals(searchText)) {
-                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
-                            found = true;
-                        }
-                    }
-                    // If no matching Student_ID is found, display message
-                    if (!found) {
-                        JOptionPane.showMessageDialog(null, "No records found for the given Student_ID.");
-                    }
-                }
-            }
-        });
-
-// Add the search components to the panel
-        panel.add(searchField);
-        panel.add(searchButton);
 
 
 
