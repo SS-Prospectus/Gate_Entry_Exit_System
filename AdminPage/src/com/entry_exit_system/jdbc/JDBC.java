@@ -1,5 +1,6 @@
 package com.entry_exit_system.jdbc;
 
+import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.form.TimeLimits;
 import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.PendingLeaveModel;
@@ -29,8 +30,8 @@ public class JDBC {
 
     public static Connection initConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/Gate_entry_System";
-        String username = "root";
-        String password = "root@123";
+        String username = GloablVariables.username;
+        String password = GloablVariables.password;
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
@@ -114,15 +115,15 @@ public class JDBC {
         // Define your SQL UPDATE statement
         String sql = "UPDATE TimeLimits SET in_time_limit = ?, out_time = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "root@123");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "suryash_sql");
+        PreparedStatement pstmt = connection.prepareStatement(sql);
             // Set parameters for the PreparedStatement
-            pstmt.setString(1, newInTime);
-            pstmt.setString(2, newOutTime);
+        pstmt.setString(1, newInTime);
+        pstmt.setString(2, newOutTime);
 
             // Execute the update statement
-            pstmt.executeUpdate();
-        }
+        pstmt.executeUpdate();
+
     }
 
 }

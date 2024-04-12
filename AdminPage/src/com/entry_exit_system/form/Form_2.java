@@ -5,6 +5,7 @@
  */
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.jdbc.JDBC;
 import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.Model_Card;
@@ -25,15 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author RAVEN
- */
 public class Form_2 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
     public ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList;
     public Form_2() {
         initComponents();
@@ -91,7 +85,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 try {
                     // Replace "url", "username", and "password" with your database connection details
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", "root", "root@123");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", GloablVariables.username, GloablVariables.password);
                     // Construct SQL INSERT statement
                     String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
                     pstmt = conn.prepareStatement(sql);
@@ -363,7 +357,7 @@ public class Form_2 extends javax.swing.JPanel {
                 } else {
                     // Search for matching Student_ID
                     for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-                        if (leave.id.equals(searchText)) {
+                        if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
                             model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                         }
                     }
