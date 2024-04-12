@@ -363,7 +363,7 @@ public class Form_2 extends javax.swing.JPanel {
                 } else {
                     // Search for matching Student_ID
                     for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-                        if (leave.id.equals(searchText)) {
+                        if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
                             model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                         }
                     }
