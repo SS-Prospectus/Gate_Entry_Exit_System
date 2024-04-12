@@ -30,7 +30,7 @@ public class JDBC {
     public static Connection initConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/Gate_entry_System";
         String username = "root";
-        String password = "root@123";
+        String password = "suryash_sql";
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
@@ -60,7 +60,7 @@ public class JDBC {
         while (resultSet.next()) {
             String id = resultSet.getString("ID");
             String name = resultSet.getString("Name");
-            String inOut = resultSet.getString("campuss_in_out");
+            String inOut = resultSet.getString("campus_in_out");
             boolean isBanned = resultSet.getBoolean("banned");
             PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, "", "", PendingLeaveModel.Status.Approved);
             pendingLeaveList.add(pendingLeave);
@@ -114,7 +114,7 @@ public class JDBC {
         // Define your SQL UPDATE statement
         String sql = "UPDATE TimeLimits SET in_time_limit = ?, out_time = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "root@123");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "suryash_sql");
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             // Set parameters for the PreparedStatement
             pstmt.setString(1, newInTime);
