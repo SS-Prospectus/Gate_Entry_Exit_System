@@ -7,8 +7,8 @@ package com.entry_exit_system.form;
 
 import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.jdbc.JDBC;
-import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.Model_Card;
+import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class Form_2 extends javax.swing.JPanel {
 
-    public ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList;
+    public ArrayList<PenaltyBanModel> penalizedLeaveList;
     public Form_2() {
         initComponents();
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -107,7 +107,7 @@ public class Form_2 extends javax.swing.JPanel {
                     // Update table model with new dataset
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0); // Clear existing rows
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                     }
 
@@ -349,12 +349,12 @@ public class Form_2 extends javax.swing.JPanel {
 
                 // If the search text is empty or equals default text, show full table
                 if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                     }
                 } else {
                     // Search for matching Student_ID
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
                             model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                         }
