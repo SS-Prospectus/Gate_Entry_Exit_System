@@ -84,11 +84,9 @@ public class Form_2 extends javax.swing.JPanel {
                 PreparedStatement pstmt = null;
 
                 try {
-                    // Replace "url", "username", and "password" with your database connection details
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", GloablVariables.username, GloablVariables.password);
-                    // Construct SQL INSERT statement
+                    // Replace "url", "username", and "password" with your database connection details// Construct SQL INSERT statement
                     String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
-                    pstmt = conn.prepareStatement(sql);
+                    pstmt = JDBC.connection.prepareStatement(sql);
                     pstmt.setString(1, name);
                     pstmt.setString(2, id);
                     pstmt.setString(3, date);
