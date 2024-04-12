@@ -7,7 +7,9 @@ package com.entry_exit_system.main;
 
 import com.entry_exit_system.event.EventMenuSelected;
 import com.entry_exit_system.form.Form_1;
+import com.entry_exit_system.form.Form_Alt;
 import com.entry_exit_system.form.Form_Home;
+import com.entry_exit_system.jdbc.JDBC;
 
 import java.awt.*;
 import javax.swing.JComponent;
@@ -17,11 +19,15 @@ public class Main extends javax.swing.JFrame {
     private Form_Home home;
     private Form_1 form1;
 
+    private Form_Alt form_alt;
+
     public Main() {
         initComponents();
+        JDBC.JDBCinitialise();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();
+        form_alt = new Form_Alt("");
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -30,6 +36,8 @@ public class Main extends javax.swing.JFrame {
                     setForm(home);
                 } else if (index == 1) {
                     setForm(form1);
+                } else {
+                    setForm(form_alt);
                 }
             }
         });
@@ -37,7 +45,7 @@ public class Main extends javax.swing.JFrame {
         setForm(new Form_Home());
     }
 
-    private void setForm(JComponent com) {
+    public void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);
         mainPanel.repaint();

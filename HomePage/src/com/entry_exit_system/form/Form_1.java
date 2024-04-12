@@ -1,19 +1,18 @@
 package com.entry_exit_system.form;
+import com.entry_exit_system.main.Main;
+import com.entry_exit_system.swing.HintTextField;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class Form_1 extends javax.swing.JPanel {
     private JTextField idTextField;
-    private JButton logoutButton;
+    private JButton EnterButton;
 
     public Form_1() {
         addComponents();
@@ -56,31 +55,33 @@ public class Form_1 extends javax.swing.JPanel {
         updateTime(currentTimeLabel);
 
         // Style ID text field
-        idTextField = new JTextField();
-        idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
+        idTextField = new HintTextField("Enter id");
+//        idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
         idTextField.setBounds(110, 330, 500, 55);
         idTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
         idTextField.setBackground(new Color(250, 250, 250));
         idTextField.setOpaque(false);
-        idTextField.setForeground(new Color(20, 50, 110));
+//        idTextField.setForeground(new Color(20, 50, 110));
         idTextField.setSelectionColor(new Color(220, 204, 182));
 //        PromptSupport.setPrompt("ID", idTextField);
         this.add(idTextField);
 
         // Style Log Out button
-        logoutButton = new JButton("ENTER");
-        logoutButton.setFont(new Font("sansserif", Font.PLAIN, 30));
-        logoutButton.setBounds(630, 330, 250, 55);
-        logoutButton.setForeground(new Color(20, 50, 110));
-        logoutButton.setBackground(new Color(10, 215, 255));
-        logoutButton.addActionListener(new ActionListener() {
+        EnterButton = new JButton("ENTER");
+        EnterButton.setFont(new Font("sansserif", Font.PLAIN, 30));
+        EnterButton.setBounds(630, 330, 250, 55);
+        EnterButton.setForeground(new Color(20, 50, 110));
+        EnterButton.setBackground(new Color(10, 215, 255));
+        EnterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Add logout functionality here
+                if(StudentHandler.studentExist(idTextField.getText())){
+                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_1.this);
+                    main.setForm(new Form_Alt_2(idTextField.getText()));
+                }
             }
         });
-        this.add(logoutButton);
+        this.add(EnterButton);
     }
-
 
     private void updateTime(JLabel label) {
         Timer timer = new Timer(1000, new ActionListener() {
@@ -96,7 +97,6 @@ public class Form_1 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
 
         jLabel1 = new javax.swing.JLabel();
 

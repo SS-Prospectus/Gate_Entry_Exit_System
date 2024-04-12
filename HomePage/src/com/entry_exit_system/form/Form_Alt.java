@@ -1,27 +1,30 @@
 package com.entry_exit_system.form;
+
 import com.entry_exit_system.main.Main;
 import com.entry_exit_system.swing.HintTextField;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-public class Form_Home extends javax.swing.JPanel {
-    private JTextField idTextField;
+
+public class Form_Alt extends JPanel {
+    private JTextField reasonText;
     private JButton EnterButton;
+    private String id;
 
-    public Form_Home() {
+    public Form_Alt(String id) {
+        this.id = id;
         addComponents();
         initComponents();
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -49,42 +52,53 @@ public class Form_Home extends javax.swing.JPanel {
         TitleLabel.setBounds(300, 10, 350, 120);
         this.add(TitleLabel);
 
-        // Display current time as simple text
         JLabel currentTimeLabel = new JLabel();
-        currentTimeLabel.setFont(new Font("sansserif", Font.BOLD, 100));
+        currentTimeLabel.setFont(new Font("sansserif", Font.BOLD, 70));
         currentTimeLabel.setForeground(Color.cyan);
         currentTimeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        currentTimeLabel.setBounds(250, 150, 500, 120);
+        currentTimeLabel.setBounds(235, 150, 500, 120);
         this.add(currentTimeLabel);
         updateTime(currentTimeLabel);
 
-        // Style ID text field
-        idTextField = new HintTextField("Enter id");
+        reasonText = new HintTextField("Reason for leave");
 //        idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
-        idTextField.setBounds(110, 330, 500, 55);
-        idTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
-        idTextField.setBackground(new Color(250, 250, 250));
-        idTextField.setOpaque(false);
+        reasonText.setBounds(110, 330, 500, 55);
+        reasonText.setBorder(new EmptyBorder(5, 5, 5, 5));
+        reasonText.setBackground(new Color(250, 250, 250));
+        reasonText.setOpaque(false);
 //        idTextField.setForeground(new Color(20, 50, 110));
-        idTextField.setSelectionColor(new Color(220, 204, 182));
+        reasonText.setSelectionColor(new Color(220, 204, 182));
 //        PromptSupport.setPrompt("ID", idTextField);
-        this.add(idTextField);
+        if(StudentHandler.studentInCampus(id)){
+            this.add(reasonText);
+        }
 
         // Style Log Out button
-        EnterButton = new JButton("ENTER");
+        EnterButton = new JButton("Confirm Entry");
+        EnterButton.setBounds(320, 330, 350, 75);
+        if(StudentHandler.studentInCampus(id)){
+            EnterButton.setText("Confirm Exit");
+            EnterButton.setBounds(630, 330, 300, 55);
+        }
         EnterButton.setFont(new Font("sansserif", Font.PLAIN, 30));
-        EnterButton.setBounds(630, 330, 250, 55);
         EnterButton.setForeground(new Color(20, 50, 110));
         EnterButton.setBackground(new Color(10, 215, 255));
         EnterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(StudentHandler.studentExist(idTextField.getText())){
-                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_Home.this);
-                    main.setForm(new Form_Alt(idTextField.getText()));
-                }
+                LocalDate currentDate = LocalDate.now();
+                LocalTime currentTime = LocalTime.now();
+
+                String outDate = currentDate.toString();
+                String outTime = currentTime.toString();
+                LeaveLogHandler.addLog(id,outTime,null,outDate,null,false,reasonText.getText());
+
+                Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
+                main.setForm(new Form_Home());
             }
+
         });
         this.add(EnterButton);
+
     }
 
     private void updateTime(JLabel label) {
@@ -97,14 +111,14 @@ public class Form_Home extends javax.swing.JPanel {
         timer.setInitialDelay(0);
         timer.start();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new JLabel();
 
-        jLabel1 = new javax.swing.JLabel();
-
-        setBackground(new java.awt.Color(242, 242, 242));
+        setBackground(new Color(242, 242, 242));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -123,5 +137,6 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addGap(125, 125, 125))
         );
     }// Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private JLabel jLabel1;
+    // End of variables declaration//GEN-END:variables
 }
