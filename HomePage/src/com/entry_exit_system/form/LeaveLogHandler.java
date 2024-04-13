@@ -52,14 +52,14 @@ public class LeaveLogHandler {
             String inLimitEnd = JDBC.getTimeLimitEnd();
             LocalTime inLimEnd = LocalTime.parse(inLimitEnd);
             LocalTime intime = LocalTime.parse(inTime);
+            JDBC.updateLogTimes(log_id,inTime,inDate);
+            JDBC.updateInOut(id,"in");
 
             if(intime.isBefore(inLimStart) || intime.isAfter(inLimEnd)){
                 JDBC.insertPenalty(id,log_id,100.00,inDate,"Late Entry");
                 JOptionPane.showMessageDialog(null, "You entered at invalid time, Penalty added of Rs. 100");
             } else {
-                JDBC.updateLogTimes(log_id,inTime,inDate);
-                JDBC.updateInOut(id,"in");
-                JOptionPane.showMessageDialog(null, "Entry Sucdessful");
+                JOptionPane.showMessageDialog(null, "Entry Successful");
             }
         }catch (SQLException e){
             e.printStackTrace();
