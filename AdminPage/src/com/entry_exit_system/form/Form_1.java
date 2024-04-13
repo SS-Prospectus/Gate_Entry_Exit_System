@@ -9,7 +9,6 @@ import com.entry_exit_system.model.Model_Card;
 import com.entry_exit_system.model.OutstationRecordModel;
 //import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
