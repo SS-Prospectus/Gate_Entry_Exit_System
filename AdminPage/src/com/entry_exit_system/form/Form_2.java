@@ -39,7 +39,6 @@ public class Form_2 extends javax.swing.JPanel {
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         penalizedLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.name, pendingLeave.id, pendingLeave.date, pendingLeave.reason} );});
     }
-
     // Add JTextField declarations
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
@@ -49,7 +48,6 @@ public class Form_2 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
 
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
 
@@ -131,7 +129,6 @@ public class Form_2 extends javax.swing.JPanel {
                 }
             }
         });
-
 
         panel = new javax.swing.JLayeredPane();
         card1 = new com.entry_exit_system.component.Card();
@@ -325,7 +322,6 @@ public class Form_2 extends javax.swing.JPanel {
                 }
             }
         });
-
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {

@@ -37,22 +37,17 @@ public class BannedStudentsHandler {
             pstmt.setString(2, String.valueOf(date));
             pstmt.setString(3, reason);
 
-            // Execute INSERT statement
             pstmt.executeUpdate();
 
+            JOptionPane.showMessageDialog(null, "Data added successfully!");
 
-
-            // Retrieve updated dataset from the database
 
 
         } catch (SQLException ex) {
-            // Handle database errors
             ex.printStackTrace();
-            // Optionally, display an error message to the user
             JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database.");
 
         } finally {
-            // Close PreparedStatement and Connection
             try {
                 if (pstmt != null) pstmt.close();
             } catch (SQLException ex) {

@@ -12,8 +12,7 @@ public class PendingLeavesHandler {
         ArrayList<PendingLeaveModel> pendingLeaveList = null;
         try {
             pendingLeaveList = new ArrayList<>(JDBC.getPendingLeavesFromDB());
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return pendingLeaveList;

@@ -6,24 +6,30 @@
 package com.entry_exit_system.form;
 
 import com.entry_exit_system.model.Model_Card;
-import com.entry_exit_system.model.StatusType;
+import com.entry_exit_system.model.OutstationRecordModel;
+//import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
  * @author RAVEN
  */
 public class  Form_1 extends javax.swing.JPanel {
+    ArrayList<OutstationRecordModel> outstationRecords;
 
     /**
      * Creates new form Form_1
      */
     public Form_1() {
+
         initComponents();
 //        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Stock Total", "$200000", "Increased by 60%"));
 //        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Profit", "$15000", "Increased by 25%"));
@@ -35,53 +41,45 @@ public class  Form_1 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        table.addRow(new Object[]{"Mike Bhand", "mikebhand@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018"});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018"});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018"});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
+        outstationRecords.forEach((outstationRecord)->{table.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.outDate, outstationRecord.inDate, outstationRecord.destination} );});
     }
 
     // Add JTextField declarations
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtReason;
-    private javax.swing.JTextField txtDate;
-
-
+    private javax.swing.JTextField txtOutDate;
+    private javax.swing.JTextField txtInDate;
+    private javax.swing.JTextField txtDestination;
 
 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        outstationRecords = OutstationRecordsHandler.getOutstationRecords();
 
         // Inside initComponents() method, after spTable.setViewportView(table):
         txtName = new javax.swing.JTextField("Name");
         txtID = new javax.swing.JTextField("ID");
         txtReason = new javax.swing.JTextField("Reason");
-        txtDate = new javax.swing.JTextField("Date");
+        txtOutDate = new javax.swing.JTextField("Out Date");
+        txtInDate = new javax.swing.JTextField("In Date");
+        txtDestination = new javax.swing.JTextField("Destination");
 
-        JButton addButton = new JButton("Add Data");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Reset the text fields to their original values
-                txtName.setText("Name");
-                txtID.setText("ID");
-                txtReason.setText("Reason");
-                txtDate.setText("Date");
-            }
-        });
+//        JButton addButton = new JButton("Add Data");
+//        addButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                // Reset the text fields to their original values
+//                txtName.setText("Name");
+//                txtID.setText("ID");
+//                txtReason.setText("Reason");
+//                txtOutDate.setText("Out Date");
+//                txtInDate.setText("In Date");
+//
+//            }
+//        });
 
         panel = new javax.swing.JLayeredPane();
         card1 = new com.entry_exit_system.component.Card();
@@ -112,7 +110,7 @@ public class  Form_1 extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel1.setText("List of Past Records");
+        jLabel1.setText("List of Outstation Records");
 
         spTable.setBorder(null);
 
@@ -121,11 +119,11 @@ public class  Form_1 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Name", "ID", "Date", "Reason"
+                        "ID", "Name", "Reason", "Out Date", "In Date", "Destination"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false
+                    false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
