@@ -1,7 +1,8 @@
 package com.entry_exit_system.jdbc;
 
+import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.form.TimeLimits;
-import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
+import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 
 import java.sql.*;
@@ -29,8 +30,8 @@ public class JDBC {
 
     public static Connection initConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/Gate_entry_System";
-        String username = "root";
-        String password = "root@123";
+        String username = GloablVariables.username;
+        String password = GloablVariables.password;
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
@@ -71,18 +72,37 @@ public class JDBC {
         return pendingLeaveList;
     }
 
-    public static ArrayList<List_Of_Penalized_Students_Model> getPenalizedStudents() throws SQLException {
+    public static ArrayList<PenaltyBanModel> getBannedStudentsFromDB() throws SQLException {
+        String sql = "SELECT * FROM Bans, Student WHERE ID=student_id";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<PenaltyBanModel> bannedStudentsList= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("ID");
+            String name = resultSet.getString("Name");
+            String date = resultSet.getString("date_banned");
+            String reason = resultSet.getString("reason");
+            PenaltyBanModel bannedStudent = new PenaltyBanModel(name, id, date, reason);
+            bannedStudentsList.add(bannedStudent);
+
+
+        }
+        return bannedStudentsList;
+    }
+
+    public static ArrayList<PenaltyBanModel> getPenalizedStudents() throws SQLException {
         String sql = "SELECT * FROM Penalties";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
-        ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList= new ArrayList<>();
+        ArrayList<PenaltyBanModel> penalizedLeaveList= new ArrayList<>();
 
         while (resultSet.next()) {
             String id = resultSet.getString("student_id");
             String name = resultSet.getString("penalty_id");
             String date = resultSet.getString("date_penalized");
             String reason = resultSet.getString("reason");
-            List_Of_Penalized_Students_Model pendingLeave=new List_Of_Penalized_Students_Model(name, id, date, reason);
+            PenaltyBanModel pendingLeave=new PenaltyBanModel(name, id, date, reason);
             penalizedLeaveList.add(pendingLeave);
 
 //            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
@@ -114,15 +134,15 @@ public class JDBC {
         // Define your SQL UPDATE statement
         String sql = "UPDATE TimeLimits SET in_time_limit = ?, out_time = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "root@123");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "suryash_sql");
+        PreparedStatement pstmt = connection.prepareStatement(sql);
             // Set parameters for the PreparedStatement
-            pstmt.setString(1, newInTime);
-            pstmt.setString(2, newOutTime);
+        pstmt.setString(1, newInTime);
+        pstmt.setString(2, newOutTime);
 
             // Execute the update statement
-            pstmt.executeUpdate();
-        }
+        pstmt.executeUpdate();
+
     }
 
 }

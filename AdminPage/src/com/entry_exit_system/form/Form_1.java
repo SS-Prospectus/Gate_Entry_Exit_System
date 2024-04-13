@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  *
  * @author RAVEN
  */
-public class Form_1 extends javax.swing.JPanel {
+public class  Form_1 extends javax.swing.JPanel {
 
     /**
      * Creates new form Form_1
@@ -83,8 +83,6 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
 
-
-
         panel = new javax.swing.JLayeredPane();
         card1 = new com.entry_exit_system.component.Card();
         card2 = new com.entry_exit_system.component.Card();
@@ -96,7 +94,7 @@ public class Form_1 extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(242, 242, 242));
 
-        panel.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
+        panel.setLayout(new java.awt.GridLayout(1, 0, 0, 0));
 
 //        card1.setColor1(new java.awt.Color(142, 142, 250));
 //        card1.setColor2(new java.awt.Color(123, 123, 245));

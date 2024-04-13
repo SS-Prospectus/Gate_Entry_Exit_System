@@ -5,9 +5,10 @@
  */
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.jdbc.JDBC;
-import com.entry_exit_system.model.List_Of_Penalized_Students_Model;
 import com.entry_exit_system.model.Model_Card;
+import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
@@ -25,16 +26,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author RAVEN
- */
 public class Form_2 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
-    public ArrayList<List_Of_Penalized_Students_Model> penalizedLeaveList;
+    public ArrayList<PenaltyBanModel> penalizedLeaveList;
     public Form_2() {
         initComponents();
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -90,11 +84,9 @@ public class Form_2 extends javax.swing.JPanel {
                 PreparedStatement pstmt = null;
 
                 try {
-                    // Replace "url", "username", and "password" with your database connection details
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_Entry_System", "root", "root@123");
-                    // Construct SQL INSERT statement
+                    // Replace "url", "username", and "password" with your database connection details// Construct SQL INSERT statement
                     String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
-                    pstmt = conn.prepareStatement(sql);
+                    pstmt = JDBC.connection.prepareStatement(sql);
                     pstmt.setString(1, name);
                     pstmt.setString(2, id);
                     pstmt.setString(3, date);
@@ -115,7 +107,7 @@ public class Form_2 extends javax.swing.JPanel {
                     // Update table model with new dataset
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0); // Clear existing rows
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                     }
 
@@ -357,12 +349,12 @@ public class Form_2 extends javax.swing.JPanel {
 
                 // If the search text is empty or equals default text, show full table
                 if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                     }
                 } else {
                     // Search for matching Student_ID
-                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
+                    for (PenaltyBanModel leave : penalizedLeaveList) {
                         if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
                             model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
                         }
