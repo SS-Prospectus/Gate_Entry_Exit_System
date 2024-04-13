@@ -2,6 +2,7 @@ package com.entry_exit_system.jdbc;
 
 import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.form.TimeLimits;
+import com.entry_exit_system.model.OutstationRecordModel;
 import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 
@@ -53,7 +54,7 @@ public class JDBC {
     }
 
     public static ArrayList<PendingLeaveModel> getPendingLeavesFromDB() throws SQLException {
-        String sql = "SELECT * FROM Student";
+        String sql = "SELECT * FROM Student, OutStationLog NATURAL JOIN LeaveLogs WHERE student_id=ID AND DATEDIFF(CURDATE(), out_date) < 30";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<PendingLeaveModel> pendingLeaveList= new ArrayList<>();
@@ -61,15 +62,38 @@ public class JDBC {
         while (resultSet.next()) {
             String id = resultSet.getString("ID");
             String name = resultSet.getString("Name");
-            String inOut = resultSet.getString("is_day_scholar");
-            boolean isBanned = resultSet.getBoolean("banned");
-            PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, "", "", PendingLeaveModel.Status.Approved);
+            String from = resultSet.getString("out_date");
+            String to = resultSet.getString("in_date");
+            String reason = resultSet.getString("reason");
+            PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, from, to, reason, "APPROVED");
             pendingLeaveList.add(pendingLeave);
 
-            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
-            System.out.println("Name: " + name + ", Banned: " + isBanned);
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
         }
         return pendingLeaveList;
+    }
+
+    public static ArrayList<OutstationRecordModel> getOutstationRecordsFromDB() throws SQLException {
+        String sql = "SELECT * FROM (SELECT * FROM LeaveLogs NATURAL JOIN OutStationLog) as T1, Student WHERE ID = student_id";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<OutstationRecordModel> outstationRecords= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("ID");
+            String name = resultSet.getString("Name");
+            String outDate = resultSet.getString("out_date");
+            String inDate = resultSet.getString("in_date");
+            String reason = resultSet.getString("reason");
+            String destination = resultSet.getString("to_location");
+            OutstationRecordModel outstationRecord= new OutstationRecordModel(name, id, outDate, inDate, reason, destination);
+            outstationRecords.add(outstationRecord);
+
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+        }
+        return outstationRecords;
     }
 
     public static ArrayList<PenaltyBanModel> getBannedStudentsFromDB() throws SQLException {

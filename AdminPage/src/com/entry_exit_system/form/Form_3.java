@@ -59,7 +59,7 @@ public class Form_3 extends javax.swing.JPanel {
 
 
         // Inside initComponents() method, after spTable.setViewportView(table):
-        txtID = new javax.swing.JTextField("ID");
+        txtID = new javax.swing.JTextField("Student ID");
         txtReason = new javax.swing.JTextField("Reason");
 
         JButton addButton = new JButton("Add Data");
@@ -87,8 +87,7 @@ public class Form_3 extends javax.swing.JPanel {
                     model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason});
                 }
 
-                // Optionally, display a success message to the user
-                JOptionPane.showMessageDialog(null, "Data added successfully!");
+
 
 
             }
