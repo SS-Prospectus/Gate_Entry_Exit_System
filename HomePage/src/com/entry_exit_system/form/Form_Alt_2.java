@@ -1,5 +1,6 @@
 package com.entry_exit_system.form;
 
+import com.entry_exit_system.main.Main;
 import com.entry_exit_system.swing.HintTextField;
 
 import javax.swing.*;
@@ -8,12 +9,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class Form_Alt_2 extends JPanel {
 
     private String id;
-    private JTextField idTextField;
+    private JTextField reasonTextField;
+    private JTextField toLocTextField;
     private JButton EnterButton;
 
     public Form_Alt_2(String id) {
@@ -52,21 +56,34 @@ public class Form_Alt_2 extends JPanel {
         currentTimeLabel.setFont(new Font("sansserif", Font.BOLD, 70));
         currentTimeLabel.setForeground(Color.cyan);
         currentTimeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        currentTimeLabel.setBounds(235, 150, 500, 120);
+        currentTimeLabel.setBounds(230, 150, 500, 120);
         this.add(currentTimeLabel);
         updateTime(currentTimeLabel);
 
-        idTextField = new HintTextField("Reason for leave");
+        reasonTextField = new HintTextField("Reason for leave");
 //        idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
-        idTextField.setBounds(110, 330, 500, 55);
-        idTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
-        idTextField.setBackground(new Color(250, 250, 250));
-        idTextField.setOpaque(false);
+        reasonTextField.setBounds(100, 330, 820, 55);
+        reasonTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
+        reasonTextField.setBackground(new Color(250, 250, 250));
+        reasonTextField.setOpaque(false);
 //        idTextField.setForeground(new Color(20, 50, 110));
-        idTextField.setSelectionColor(new Color(220, 204, 182));
+        reasonTextField.setSelectionColor(new Color(220, 204, 182));
 //        PromptSupport.setPrompt("ID", idTextField);
         if(StudentHandler.studentInCampus(id)){
-            this.add(idTextField);
+            this.add(reasonTextField);
+        }
+
+        toLocTextField = new HintTextField("Destination");
+//        idTextField.setFont(new Font("sansserif", Font.PLAIN, 40));
+        toLocTextField.setBounds(100, 420, 500, 55);
+        toLocTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
+        toLocTextField.setBackground(new Color(250, 250, 250));
+        toLocTextField.setOpaque(false);
+//        idTextField.setForeground(new Color(20, 50, 110));
+        toLocTextField.setSelectionColor(new Color(220, 204, 182));
+//        PromptSupport.setPrompt("ID", idTextField);
+        if(StudentHandler.studentInCampus(id)){
+            this.add(toLocTextField);
         }
 
         // Style Log Out button
@@ -74,14 +91,26 @@ public class Form_Alt_2 extends JPanel {
         EnterButton.setBounds(320, 330, 350, 75);
         if(StudentHandler.studentInCampus(id)){
             EnterButton.setText("Confirm Exit");
-            EnterButton.setBounds(630, 330, 300, 55);
+            EnterButton.setBounds(620, 420, 300, 55);
         }
         EnterButton.setFont(new Font("sansserif", Font.PLAIN, 30));
         EnterButton.setForeground(new Color(20, 50, 110));
         EnterButton.setBackground(new Color(10, 215, 255));
         EnterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                LocalDate currentDate = LocalDate.now();
+                LocalTime currentTime = LocalTime.now();
+                if(StudentHandler.studentInCampus(id)){
+                    String outDate = currentDate.toString();
+                    String outTime = currentTime.toString();
+                    LeaveLogHandler.addLogOutstation(id,outTime,null,outDate,null,false,reasonTextField.getText(),toLocTextField.getText());
+                } else {
+                    String inDate = currentDate.toString();
+                    String inTime = currentTime.toString();
+                    LeaveLogHandler.updateLogOnEntryOutStation(id,inTime,inDate);
+                }
+                Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt_2.this);
+                main.setForm(new Form_1());
             }
         });
         this.add(EnterButton);

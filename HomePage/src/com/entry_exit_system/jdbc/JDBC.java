@@ -65,6 +65,7 @@ public class JDBC {
     }
 
     public static int getMostRecentLogId(String studentId) throws SQLException {
+        JDBCinitialise();
         String sql = "SELECT log_id FROM LeaveLogs WHERE student_id = ? ORDER BY log_id DESC LIMIT 1";
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, studentId);
@@ -91,4 +92,46 @@ public class JDBC {
         pstmt.setString(2, id);
         pstmt.executeUpdate();
     }
+
+    public static String getTimeLimitStart() throws SQLException {
+        String sql = "SELECT in_time_limit FROM TimeLimits";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (resultSet.next()) {
+            return resultSet.getString("in_time_limit");
+        }
+        return null; // Return null if no result is found
+    }
+
+    public static String getTimeLimitEnd() throws SQLException {
+        String sql = "SELECT out_time FROM TimeLimits";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (resultSet.next()) {
+            return resultSet.getString("out_time");
+        }
+        return null; // Return null if no result is found
+    }
+
+    public static void insertPenalty(String studentId, int logId, double totalPenaltyAmount, String datePenalized, String reason) throws SQLException {
+        String sql = "INSERT INTO Penalties (student_id, log_id, total_penalty_amount, date_penalized, reason) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, studentId);
+        pstmt.setInt(2, logId);
+        pstmt.setDouble(3, totalPenaltyAmount);
+        pstmt.setString(4, datePenalized);
+        pstmt.setString(5, reason);
+        pstmt.executeUpdate();
+    }
+
+    public static void insertOutstationLeave(String studentId, int leaveId, String toLoc) throws SQLException {
+        int logId = getMostRecentLogId(studentId);
+        String sql = "INSERT INTO OutStationLog (log_id, leave_id, to_location) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1, logId);
+        pstmt.setInt(2, leaveId);
+        pstmt.setString(3, toLoc);
+        pstmt.executeUpdate();
+    }
+
 }

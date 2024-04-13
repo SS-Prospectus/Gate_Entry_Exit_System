@@ -91,23 +91,19 @@ public class Form_Alt extends JPanel {
                 if(StudentHandler.studentInCampus(id)){
                     String outDate = currentDate.toString();
                     String outTime = currentTime.toString();
-                    LeaveLogHandler.addLog(id,outTime,null,outDate,null,false,reasonText.getText());
-
-                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
-                    main.setForm(new Form_Home());
+                    LeaveLogHandler.addLog(id,outTime,null,outDate,null,true,reasonText.getText());
                 } else {
                     String inDate = currentDate.toString();
                     String inTime = currentTime.toString();
                     LeaveLogHandler.updateLogOnEntry(id,inTime,inDate);
-
-                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
-                    main.setForm(new Form_Home());
                 }
+
+                Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
+                main.setForm(new Form_Home());
             }
 
         });
         this.add(EnterButton);
-
     }
 
     private void updateTime(JLabel label) {
