@@ -65,7 +65,7 @@ public class JDBC {
     }
 
     public static int getMostRecentLogId(String studentId) throws SQLException {
-        String sql = "SELECT log_id FROM LeaveLogs WHERE Student.ID = ? ORDER BY log_id DESC LIMIT 1";
+        String sql = "SELECT log_id FROM LeaveLogs WHERE student_id = ? ORDER BY log_id DESC LIMIT 1";
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, studentId);
         ResultSet resultSet = pstmt.executeQuery();
@@ -75,12 +75,20 @@ public class JDBC {
         return -1; // Return -1 if no log found
     }
 
-    public static void updateLogTimes(int logId, String inTime, String outTime) throws SQLException {
-        String sql = "UPDATE LeaveLogs SET in_time = ?, out_time = ? WHERE log_id = ?";
+    public static void updateLogTimes(int logId, String inTime, String inDate) throws SQLException {
+        String sql = "UPDATE LeaveLogs SET in_time = ?, in_date = ? WHERE log_id = ?";
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, inTime);
-        pstmt.setString(2, outTime);
+        pstmt.setString(2, inDate);
         pstmt.setInt(3, logId);
+        pstmt.executeUpdate();
+    }
+
+    public static void updateInOut(String id, String inOut) throws SQLException {
+        String sql = "UPDATE Student SET campus_in_out = ? WHERE Student.ID = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, inOut);
+        pstmt.setString(2, id);
         pstmt.executeUpdate();
     }
 }

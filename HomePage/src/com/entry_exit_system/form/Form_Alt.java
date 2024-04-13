@@ -85,15 +85,24 @@ public class Form_Alt extends JPanel {
         EnterButton.setBackground(new Color(10, 215, 255));
         EnterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 LocalDate currentDate = LocalDate.now();
                 LocalTime currentTime = LocalTime.now();
+                if(StudentHandler.studentInCampus(id)){
+                    String outDate = currentDate.toString();
+                    String outTime = currentTime.toString();
+                    LeaveLogHandler.addLog(id,outTime,null,outDate,null,false,reasonText.getText());
 
-                String outDate = currentDate.toString();
-                String outTime = currentTime.toString();
-                LeaveLogHandler.addLog(id,outTime,null,outDate,null,false,reasonText.getText());
+                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
+                    main.setForm(new Form_Home());
+                } else {
+                    String inDate = currentDate.toString();
+                    String inTime = currentTime.toString();
+                    LeaveLogHandler.updateLogOnEntry(id,inTime,inDate);
 
-                Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
-                main.setForm(new Form_Home());
+                    Main main = (Main)SwingUtilities.getWindowAncestor(Form_Alt.this);
+                    main.setForm(new Form_Home());
+                }
             }
 
         });
