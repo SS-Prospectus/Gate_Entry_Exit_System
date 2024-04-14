@@ -162,13 +162,63 @@ public class JDBC {
 
 //        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Gate_entry_System", "root", "suryash_sql");
         PreparedStatement pstmt = connection.prepareStatement(sql);
-            // Set parameters for the PreparedStatement
+        // Set parameters for the PreparedStatement
         pstmt.setString(1, newInTime);
         pstmt.setString(2, newOutTime);
 
-            // Execute the update statement
+        // Execute the update statement
         pstmt.executeUpdate();
 
     }
+    public static int GetCountOfBannedStudent() throws SQLException {
+        String sql = "SELECT COUNT(DISTINCT student_id) AS total_bans FROM Bans";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+
+        ResultSet rs = pstmt.executeQuery();
+        int totalCount = 0;
+        if (rs.next()) {
+            totalCount = rs.getInt("total_bans");
+        }
+
+        // Close resources
+        rs.close();
+        pstmt.close();
+
+        return totalCount;
+    }
+
+    public static int GetCountOfPenalitizedStudent() throws SQLException {
+        String sql = "SELECT COUNT(DISTINCT student_id) AS total_penalties FROM Penalties";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+
+        ResultSet rs = pstmt.executeQuery();
+        int totalCount = 0;
+        if (rs.next()) {
+            totalCount = rs.getInt("total_penalties");
+        }
+
+        // Close resources
+        rs.close();
+        pstmt.close();
+
+        return totalCount;
+    }
+
+public static int GetCountOfOutStudent() throws SQLException {
+    String sql = "SELECT COUNT(DISTINCT student_id) AS total_leaves FROM LeaveLogs WHERE in_date IS NULL;";
+    PreparedStatement pstmt = connection.prepareStatement(sql);
+
+    ResultSet rs = pstmt.executeQuery();
+    int totalCount = 0;
+    if (rs.next()) {
+        totalCount = rs.getInt("total_leaves");
+    }
+
+    // Close resources
+    rs.close();
+    pstmt.close();
+
+    return totalCount;
+}
 
 }
