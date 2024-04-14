@@ -5,21 +5,16 @@
  */
 package com.entry_exit_system.form;
 
-import com.entry_exit_system.jdbc.JDBC;
-import com.entry_exit_system.model.Model_Card;
 import com.entry_exit_system.model.PenaltyBanModel;
-import com.entry_exit_system.model.PendingLeaveModel;
-import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -262,8 +257,11 @@ public class Form_3 extends javax.swing.JPanel {
 
         txtID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtID.getText().equals("ID")) {
+                if (txtID.getText().equals("Student ID")) {
                     txtID.setText("");
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
                 }
             }
         });
@@ -273,9 +271,71 @@ public class Form_3 extends javax.swing.JPanel {
                 if (txtReason.getText().equals("Reason")) {
                     txtReason.setText("");
                 }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student ID");
+                }
             }
         });
 
+        final JTextField searchField = new JTextField("Search by Student_ID");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Search by Student_ID")) {
+                    searchField.setText("");
+                }
+            }
+        });
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Not used for plain text documents
+            }
+
+            private void updateTable() {
+                String searchText = searchField.getText();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+
+                // If the search text is empty or equals default text, show full table
+                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                    for (PenaltyBanModel leave : bannedStudentsList) {
+                        model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason,leave.penalty_amount});
+                    }
+                } else {
+                    // Search for matching Student_ID
+                    for (PenaltyBanModel leave : bannedStudentsList) {
+                        if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
+                            model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason,leave.penalty_amount});
+                        }
+                    }
+                }
+            }
+        });
+
+// Add the search component to the panel
+        panel.add(searchField);
+
+// Create clear button
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchField.setText("Search by Student_ID"); // Clear the search field
+            }
+        });
+
+// Add the clear button to the panel
+        panel.add(clearButton);
 
 
 

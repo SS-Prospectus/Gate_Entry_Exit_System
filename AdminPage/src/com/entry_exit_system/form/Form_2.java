@@ -5,12 +5,8 @@
  */
 package com.entry_exit_system.form;
 
-import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.jdbc.JDBC;
-import com.entry_exit_system.model.Model_Card;
 import com.entry_exit_system.model.PenaltyBanModel;
-import com.entry_exit_system.model.PendingLeaveModel;
-import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
@@ -21,9 +17,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Form_2 extends javax.swing.JPanel {
@@ -37,13 +33,14 @@ public class Form_2 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        penalizedLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.name, pendingLeave.id, pendingLeave.date, pendingLeave.reason} );});
+        penalizedLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.name, pendingLeave.id, pendingLeave.date, pendingLeave.reason,pendingLeave.penalty_amount} );});
     }
     // Add JTextField declarations
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtReason;
     private javax.swing.JTextField txtDate;
+    private javax.swing.JTextField txtPenaltyAmount;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,19 +52,14 @@ public class Form_2 extends javax.swing.JPanel {
         txtName = new javax.swing.JTextField("Penalty_id");
         txtID = new javax.swing.JTextField("Student_ID");
         txtReason = new javax.swing.JTextField("Reason");
-        txtDate = new javax.swing.JTextField("Date");
+        txtDate = new javax.swing.JTextField(); // Initialize without default text
+// Set the default value to the current date
+        LocalDate currentDate = LocalDate.now();
+        String dateString = currentDate.toString();
+        txtDate.setText(dateString);
+        txtPenaltyAmount = new javax.swing.JTextField("Penalty Amount");
 
         JButton addButton = new JButton("Add Data");
-//        addButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Reset the text fields to their original values
-//                txtName.setText("Name");
-//                txtID.setText("ID");
-//                txtReason.setText("Reason");
-//                txtDate.setText("Date");
-//            }
-//        });
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,19 +68,20 @@ public class Form_2 extends javax.swing.JPanel {
                 String id = txtID.getText();
                 String date = txtDate.getText();
                 String reason = txtReason.getText();
-
+                String penalty_amount=txtPenaltyAmount.getText();
                 // Establish connection to SQL database
                 Connection conn = null;
                 PreparedStatement pstmt = null;
 
                 try {
                     // Replace "url", "username", and "password" with your database connection details// Construct SQL INSERT statement
-                    String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason) VALUES (?, ?, ?, ?)";
+                    String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason,total_penalty_amount) VALUES (?, ?, ?, ?,?)";
                     pstmt = JDBC.connection.prepareStatement(sql);
                     pstmt.setString(1, name);
                     pstmt.setString(2, id);
                     pstmt.setString(3, date);
                     pstmt.setString(4, reason);
+                    pstmt.setString(5, penalty_amount);
 
                     // Execute INSERT statement
                     pstmt.executeUpdate();
@@ -96,8 +89,14 @@ public class Form_2 extends javax.swing.JPanel {
                     // Clear text fields after successful insertion
                     txtName.setText("Penalty_id");
                     txtID.setText("Student_ID");
-                    txtDate.setText("Date");
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+//                    txtDate.setText("Date");
                     txtReason.setText("Reason");
+                    txtPenaltyAmount.setText("Penalty Amount");
 
                     // Retrieve updated dataset from the database
                     penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
@@ -106,7 +105,7 @@ public class Form_2 extends javax.swing.JPanel {
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     model.setRowCount(0); // Clear existing rows
                     for (PenaltyBanModel leave : penalizedLeaveList) {
-                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                     }
 
                     // Optionally, display a success message to the user
@@ -156,11 +155,11 @@ public class Form_2 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Penalty_id", "Student_ID", "Date", "Reason"
+                        "Penalty_id", "Student_ID", "Date", "Reason","penalty_amount"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false
+                    false, false, false, false,false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -226,7 +225,9 @@ public class Form_2 extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(20, 20, 20))
         );
         panelBorder1Layout.setVerticalGroup(
@@ -241,7 +242,8 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20))
         );
         panelBorder1Layout.setHorizontalGroup(
@@ -252,13 +254,15 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(addButton)) // Add the button here
                                 .addGap(20, 20, 20))
         );
@@ -275,7 +279,8 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(addButton) // Add the button here
                                 .addGap(20, 20, 20))
@@ -286,6 +291,22 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtName.getText().equals("Penalty_id")) {
                     txtName.setText("");
                 }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtPenaltyAmount.getText().equals("")) {
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
             }
         });
 
@@ -294,6 +315,23 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtID.getText().equals("Student_ID")) {
                     txtID.setText("");
                 }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
+                }
+                if (txtPenaltyAmount.getText().equals("")) {
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
+
             }
         });
 
@@ -302,6 +340,22 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtReason.getText().equals("Reason")) {
                     txtReason.setText("");
                 }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
+                }
+                if (txtPenaltyAmount.getText().equals("")) {
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
             }
         });
 
@@ -309,6 +363,41 @@ public class Form_2 extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtDate.getText().equals("Date")) {
                     txtDate.setText("");
+                }
+                if (txtPenaltyAmount.getText().equals("")) {
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
+                }
+            }
+        });
+        txtPenaltyAmount.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtPenaltyAmount.getText().equals("Penalty Amount")) {
+                    txtPenaltyAmount.setText("");
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
                 }
             }
         });
@@ -319,6 +408,25 @@ public class Form_2 extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().equals("Search by Student_ID")) {
                     searchField.setText("");
+                }
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
+                if(txtPenaltyAmount.getText().equals("")){
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
                 }
             }
         });
@@ -346,13 +454,13 @@ public class Form_2 extends javax.swing.JPanel {
                 // If the search text is empty or equals default text, show full table
                 if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
                     for (PenaltyBanModel leave : penalizedLeaveList) {
-                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                     }
                 } else {
                     // Search for matching Student_ID
                     for (PenaltyBanModel leave : penalizedLeaveList) {
                         if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
-                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
+                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                         }
                     }
                 }
@@ -367,62 +475,31 @@ public class Form_2 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID"); // Clear the search field
+                searchField.setText("Search by Student_ID");
+                if (txtReason.getText().equals("")) {
+                    txtReason.setText("Reason");
+                }
+                if(txtPenaltyAmount.getText().equals("")){
+                    txtPenaltyAmount.setText("Penalty Amount");
+                }
+                if (txtDate.getText().equals("")) {
+                    LocalDate currentDate = LocalDate.now();
+                    // Convert LocalDate to String in the format "yyyy-MM-dd"
+                    String dateString = currentDate.toString();
+                    // Set the date string to the text field
+                    txtDate.setText(dateString);
+                }
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student_ID");
+                }
+                if (txtName.getText().equals("")) {
+                    txtName.setText("Penalty_id");
+                }// Clear the search field
             }
         });
 
 // Add the clear button to the panel
         panel.add(clearButton);
-
-
-
-//        // Inside initComponents() method, after initializing other components:
-//        final JTextField searchField = new JTextField("Search by Student_ID");
-//        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
-//            public void focusGained(java.awt.event.FocusEvent evt) {
-//                if (searchField.getText().equals("Search by Student_ID")) {
-//                    searchField.setText("");
-//                }
-//            }
-//        });
-//
-//        JButton searchButton = new JButton("Search");
-//        searchButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String searchText = searchField.getText();
-//                DefaultTableModel model = (DefaultTableModel) table.getModel();
-//                model.setRowCount(0); // Clear existing rows
-//
-//                // If the search text is empty or equals default text, show full table
-//                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
-//                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-//                        model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
-//                    }
-//                    // Reset search field to default text
-//                    searchField.setText("Search by Student_ID");
-//                } else {
-//                    // Search for matching Student_ID
-//                    boolean found = false;
-//                    for (List_Of_Penalized_Students_Model leave : penalizedLeaveList) {
-//                        if (leave.id.equals(searchText)) {
-//                            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason});
-//                            found = true;
-//                        }
-//                    }
-//                    // If no matching Student_ID is found, display message
-//                    if (!found) {
-//                        JOptionPane.showMessageDialog(null, "No records found for the given Student_ID.");
-//                    }
-//                }
-//            }
-//        });
-//
-//// Add the search components to the panel
-//        panel.add(searchField);
-//        panel.add(searchButton);
-
-
 
     }// </editor-fold>//GEN-END:initComponents
 

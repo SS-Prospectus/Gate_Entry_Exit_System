@@ -107,7 +107,8 @@ public class JDBC {
             String name = resultSet.getString("Name");
             String date = resultSet.getString("date_banned");
             String reason = resultSet.getString("reason");
-            PenaltyBanModel bannedStudent = new PenaltyBanModel(name, id, date, reason);
+            String penalty_amount=resultSet.getString("Name");
+            PenaltyBanModel bannedStudent = new PenaltyBanModel(name, id, date, reason,penalty_amount);
             bannedStudentsList.add(bannedStudent);
 
 
@@ -126,7 +127,8 @@ public class JDBC {
             String name = resultSet.getString("penalty_id");
             String date = resultSet.getString("date_penalized");
             String reason = resultSet.getString("reason");
-            PenaltyBanModel pendingLeave=new PenaltyBanModel(name, id, date, reason);
+            String penalty_amount=resultSet.getString("total_penalty_amount");
+            PenaltyBanModel pendingLeave=new PenaltyBanModel(name, id, date, reason,penalty_amount);
             penalizedLeaveList.add(pendingLeave);
 
 //            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");

@@ -5,13 +5,13 @@
  */
 package com.entry_exit_system.form;
 
-import com.entry_exit_system.model.Model_Card;
 import com.entry_exit_system.model.OutstationRecordModel;
-//import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +41,66 @@ public class  Form_1 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         outstationRecords.forEach((outstationRecord)->{table.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.outDate, outstationRecord.inDate, outstationRecord.destination} );});
+        final JTextField searchField = new JTextField("Search by Student_ID");
+        searchField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Search by Student_ID")) {
+                    searchField.setText("");
+                }
+            }
+        });
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Not used for plain text documents
+            }
+
+            private void updateTable() {
+                String searchText = searchField.getText();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+
+                // If the search text is empty or equals default text, show full table
+                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                    for (OutstationRecordModel leave : outstationRecords) {
+                        model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.outDate, leave.inDate,leave.destination});
+                    }
+                } else {
+                    // Search for matching Student_ID
+                    for (OutstationRecordModel leave : outstationRecords) {
+                        if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
+                            model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.outDate, leave.inDate,leave.destination});
+                        }
+                    }
+                }
+            }
+        });
+
+// Add the search component to the panel
+        panel.add(searchField);
+
+// Create clear button
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchField.setText("Search by Student_ID"); // Clear the search field
+            }
+        });
+
+// Add the clear button to the panel
+        panel.add(clearButton);
+
     }
 
     // Add JTextField declarations
