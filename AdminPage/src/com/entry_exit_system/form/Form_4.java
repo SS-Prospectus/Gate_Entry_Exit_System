@@ -33,6 +33,22 @@ public class Form_4 extends javax.swing.JPanel {
         initComponents();
         populateTimeFields();
     }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Define the gradient colors
+        Color color1 = new Color(28, 181, 224); // Color.decode("#1CB5E0") as RGB
+        Color color2 = new Color(0, 0, 70); // Light blue
+
+        // Create the gradient
+        GradientPaint gradient = new GradientPaint(0, 0, color1, 0, getHeight(), color2);
+
+        // Apply the gradient
+        g2d.setPaint(gradient);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+    }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
@@ -74,6 +90,9 @@ public class Form_4 extends javax.swing.JPanel {
         });
 
         JButton addButton = new JButton("Set Time");
+        addButton.setFont(new Font("sansserif", Font.PLAIN, 30));
+        addButton.setForeground(new Color(20, 50, 110));
+        addButton.setBackground(new Color(10, 215, 255));
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +135,8 @@ public class Form_4 extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 1, 18));
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 45));
+        jLabel1.setBounds(300, 10, 350, 120);
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
         jLabel1.setText("Entry and Exit Time");
 
@@ -138,7 +158,7 @@ public class Form_4 extends javax.swing.JPanel {
         panelBorder1Layout.setVerticalGroup(
                 panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
+                                .addGap(200, 250, 300)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -146,7 +166,7 @@ public class Form_4 extends javax.swing.JPanel {
                                         .addComponent(txtOutTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(addButton) // Add the button here
-                                .addGap(20, 20, 20))
+                                .addGap(200, 250, 300))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
