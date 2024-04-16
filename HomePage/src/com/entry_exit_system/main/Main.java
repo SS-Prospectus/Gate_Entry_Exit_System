@@ -18,7 +18,6 @@ public class Main extends javax.swing.JFrame {
 
     private Form_Home home;
     private Form_1 form1;
-
     private Form_Alt form_alt;
 
     public Main() {
