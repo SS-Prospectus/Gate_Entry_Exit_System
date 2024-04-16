@@ -76,7 +76,7 @@ public class LeaveLogHandler {
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);
             JDBC.updateInOut(id,"in");
-            JOptionPane.showMessageDialog(null, "Entry Sucdessful");
+            JOptionPane.showMessageDialog(null, "Entry Successful");
 
         }catch (SQLException e){
             e.printStackTrace();

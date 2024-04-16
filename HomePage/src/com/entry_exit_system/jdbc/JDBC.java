@@ -65,7 +65,6 @@ public class JDBC {
     }
 
     public static int getMostRecentLogId(String studentId) throws SQLException {
-        JDBCinitialise();
         String sql = "SELECT log_id FROM LeaveLogs WHERE student_id = ? ORDER BY log_id DESC LIMIT 1";
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, studentId);
