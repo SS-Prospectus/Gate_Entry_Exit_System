@@ -26,7 +26,7 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void init() {
-        listMenu1.addItem(new Model_Menu("1", "Pending Leaves", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("1", "Approved Leaves", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Outstation Records", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "Leave Logs", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "Penalties", Model_Menu.MenuType.MENU));

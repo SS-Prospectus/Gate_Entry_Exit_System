@@ -61,10 +61,10 @@ public class JDBC {
         ArrayList<PendingLeaveModel> pendingLeaveList= new ArrayList<>();
 
         while (resultSet.next()) {
-            String id = resultSet.getString("ID");
-            String name = resultSet.getString("Name");
-            String from = resultSet.getString("out_date");
-            String to = resultSet.getString("in_date");
+            String id     = resultSet.getString("ID");
+            String name   = resultSet.getString("Name");
+            String from   = resultSet.getString("out_date");
+            String to     = resultSet.getString("in_date");
             String reason = resultSet.getString("reason");
             PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, from, to, reason, "APPROVED");
             pendingLeaveList.add(pendingLeave);
