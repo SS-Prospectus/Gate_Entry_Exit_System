@@ -2,6 +2,7 @@ package com.entry_exit_system.jdbc;
 
 import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.form.TimeLimits;
+import com.entry_exit_system.model.Leave_Logs_Model;
 import com.entry_exit_system.model.OutstationRecordModel;
 import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
@@ -135,6 +136,28 @@ public class JDBC {
 //            System.out.println("Name: " + name + ", Banned: " + isBanned);
         }
         return penalizedLeaveList;
+    }
+    public static ArrayList<Leave_Logs_Model> getLeaveLogs() throws SQLException{
+        String sql = "SELECT * FROM LeaveLogs JOIN  Student on LeaveLogs.student_id=Student.ID and is_outstation='0'";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<Leave_Logs_Model> LeaveLogsList= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("student_id");
+            String name = resultSet.getString("Name");
+            String in_date = resultSet.getString("in_date");
+            String in_time = resultSet.getString("in_time");
+            String out_date = resultSet.getString("out_date");
+            String out_time = resultSet.getString("out_time");
+            String reason = resultSet.getString("reason");
+            Leave_Logs_Model Leaves=new Leave_Logs_Model(name, id, reason,out_date,out_time,in_date,in_time);
+            LeaveLogsList.add(Leaves);
+
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+        }
+        return LeaveLogsList;
     }
     public static List<TimeLimits> runTest(Connection connection) throws SQLException {
         String sql = "SELECT in_time_limit, out_time FROM TimeLimits";

@@ -2,15 +2,12 @@ package com.entry_exit_system.component;
 
 import com.entry_exit_system.event.EventMenuSelected;
 import com.entry_exit_system.model.Model_Menu;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import javax.swing.JFrame;
 
 public class Menu extends javax.swing.JPanel {
 
@@ -30,10 +27,11 @@ public class Menu extends javax.swing.JPanel {
 
     private void init() {
         listMenu1.addItem(new Model_Menu("1", "Pending Leaves", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("2", "Outstation Records", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Penalties", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Banned Student", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Set Timing", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Outstation Records", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("4", "Leave Logs", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("5", "Penalties", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Banned Student", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("2", "Set Timing", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
 
         listMenu1.addItem(new Model_Menu("", "My Data", Model_Menu.MenuType.TITLE));
