@@ -54,6 +54,38 @@ public class JDBC {
 
     }
 
+    public static void deleteOldApproved() throws SQLException {
+        String sql = "DELETE FROM ApprovedLeaves WHERE DATEDIFF(CURRENT_DATE(), from_date) > 30";
+        System.out.println("Old Approved Logs Deleted");
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
+
+    }
+
+//    public static void deleteOldLogs() throws SQLException {
+//        String sql = "DELETE FROM OutStationLog WHERE DATEDIFF(CURRENT_DATE(), in_date) > 365";
+//        System.out.println("Outstation Leave Logs Deleted");
+//        Statement statement = connection.createStatement();
+//        statement.executeUpdate(sql);
+//
+//
+//        sql = "DELETE FROM LeaveLogs WHERE DATEDIFF(CURRENT_DATE(), in_date) > 365";
+//        System.out.println("Old Leave Logs Deleted");
+//        statement = connection.createStatement();
+//        statement.executeUpdate(sql);
+//
+//    }
+
+
+    public static void deleteOldLogs() throws SQLException {
+
+        String sql = "DELETE FROM LeaveLogs WHERE DATEDIFF(CURRENT_DATE(), in_date) > 365";
+        System.out.println("Old Leave Logs Deleted");
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
+
+    }
+
     public static ArrayList<PendingLeaveModel> getPendingLeavesFromDB() throws SQLException {
         String sql = "SELECT * FROM Student, OutStationLog NATURAL JOIN LeaveLogs WHERE student_id=ID AND DATEDIFF(CURDATE(), out_date) < 30";
         Statement statement = connection.createStatement();
