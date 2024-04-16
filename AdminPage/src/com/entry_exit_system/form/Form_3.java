@@ -16,17 +16,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-/**
- *
- * @author RAVEN
- */
 public class Form_3 extends javax.swing.JPanel {
     public ArrayList<PenaltyBanModel> bannedStudentsList;
-
-    /**
-     * Creates new form Form_1
-     */
     public Form_3() {
         initComponents();
   spTable.setVerticalScrollBar(new ScrollBar());
