@@ -16,17 +16,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-/**
- *
- * @author RAVEN
- */
 public class Form_3 extends javax.swing.JPanel {
     public ArrayList<PenaltyBanModel> bannedStudentsList;
-
-    /**
-     * Creates new form Form_1
-     */
     public Form_3() {
         initComponents();
   spTable.setVerticalScrollBar(new ScrollBar());
@@ -278,6 +269,8 @@ public class Form_3 extends javax.swing.JPanel {
         });
 
         final JTextField searchField = new JTextField("Search by Student_ID");
+        searchField.setFont(new Font("sansserif", Font.PLAIN, 18));
+//        searchField.setColumns(10);
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().equals("Search by Student_ID")) {
@@ -327,6 +320,7 @@ public class Form_3 extends javax.swing.JPanel {
 
 // Create clear button
         JButton clearButton = new JButton("Clear");
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
