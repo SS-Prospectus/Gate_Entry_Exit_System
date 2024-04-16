@@ -1,27 +1,61 @@
 package com.entry_exit_system.form;
 
-import com.entry_exit_system.jdbc.JDBC;
 import com.entry_exit_system.model.Model_Card;
 import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
-import java.awt.Color;
-import java.sql.Connection;
+
+import javax.swing.*;
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
+import static com.entry_exit_system.jdbc.JDBC.*;
 
 
 public class Form_Home extends javax.swing.JPanel {
     public ArrayList<PendingLeaveModel> pendingLeaveList;
+    public int bannedStudents;
+
+    {
+        try {
+            bannedStudents = GetCountOfBannedStudent();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    String banned = String.valueOf(bannedStudents);
+
+    public int penaltyStudents;
+
+    {
+        try {
+            penaltyStudents = GetCountOfPenalitizedStudent();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    String penaltynumber = String.valueOf(penaltyStudents);
+
+    public int outStudents;
+
+    public int leaveStudents;
+
+    {
+        try {
+            outStudents = GetCountOfOutStudent();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    String outStudentsnumber = String.valueOf(outStudents);
+
 
     public Form_Home() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total Leaves", "$200000"));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total OutStation", "$15000"));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Total Local", "$300000"));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total Leaves", outStudentsnumber));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Penalized Students", penaltynumber));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Total Banned Students", banned));
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -30,20 +64,6 @@ public class Form_Home extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         pendingLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, pendingLeave.reason, StatusType.APPROVED} );});
-//        table.addRow(new Object[]{"Mike Bhand", "mikebhand@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-//        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-//        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-//        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-//        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-//        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
-//        table.addRow(new Object[]{"Andrew Strauss", "andrewstrauss@gmail.com", "Editor", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Ross Kopelman", "rosskopelman@gmail.com", "Subscriber", "25 Apr,2018", StatusType.APPROVED});
-//        table.addRow(new Object[]{"Mike Hussy", "mikehussy@gmail.com", "Admin", "25 Apr,2018", StatusType.REJECT});
-//        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
     }
 
     @SuppressWarnings("unchecked")
