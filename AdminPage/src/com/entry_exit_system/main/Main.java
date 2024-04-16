@@ -19,7 +19,6 @@ public class Main extends javax.swing.JFrame {
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
-
     private Form_4 form4;
     private Form_5 form5;
 
