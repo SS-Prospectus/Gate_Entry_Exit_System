@@ -41,14 +41,11 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JTextField txtReason;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtPenaltyAmount;
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    public void initComponents() {
 
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
-
-        // Inside initComponents() method, after spTable.setViewportView(table):
         txtName = new javax.swing.JTextField("Penalty_id");
         txtID = new javax.swing.JTextField("Student_ID");
         txtReason = new javax.swing.JTextField("Reason");

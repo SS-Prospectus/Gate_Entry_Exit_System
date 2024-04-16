@@ -11,6 +11,7 @@ import com.entry_exit_system.jdbc.JDBC;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class Main extends javax.swing.JFrame {
 
@@ -37,16 +38,22 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
+                    home = new Form_Home();
                     setForm(home);
                 } else if (index == 1) {
+                    form1 = new Form_1();
                     setForm(form1);
                 } else if (index == 3) {
+                    form2 = new Form_2();
                     setForm(form2);
                 } else if (index == 4) {
+                    form3 = new Form_3();
                     setForm(form3);
                 } else if (index == 5) {
+                    form4 = new Form_4();
                     setForm(form4);
                 }   else if (index == 2) {
+                    form5 = new Form_5();
                     setForm(form5);
                 }
             }
@@ -124,9 +131,6 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -158,8 +162,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
     }
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.entry_exit_system.component.Header header2;
