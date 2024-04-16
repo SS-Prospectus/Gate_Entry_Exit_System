@@ -26,6 +26,13 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         JDBC.JDBCinitialise();
+        try {
+            JDBC.deleteOldLogs();
+            JDBC.deleteOldApproved();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
         form1 = new Form_1();

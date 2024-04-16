@@ -36,10 +36,10 @@ public class LeaveLogHandler {
                 return;
             }
             JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
-            mailService.sendMailTo("f20220093@pilani.bits-pilani.pilani.ac.in","Your ward left campuss","out");
             JDBC.insertOutstationLeave(studentId,1,toLoc);
             JDBC.updateInOut(studentId,"out");
             JOptionPane.showMessageDialog(null, "Leave Started Successfully");
+            mailService.sendMailTo("f20220093@pilani.bits-pilani.ac.in","Your ward left campuss","out");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Unable to Add Leave");
         }
@@ -81,9 +81,8 @@ public class LeaveLogHandler {
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);
             JDBC.updateInOut(id,"in");
-            mailService.sendMailTo("f20220093@pilani.bits-pilani.pilani.ac.in","Your ward entered campuss","in");
             JOptionPane.showMessageDialog(null, "Entry Successful");
-
+            mailService.sendMailTo("f20220093@pilani.bits-pilani.ac.in","Your ward entered campuss","in");
         }catch (SQLException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,"Unable to fetch data");
