@@ -103,7 +103,7 @@ public class Form_Alt_2 extends JPanel {
                 if(StudentHandler.studentInCampus(id)){
                     String outDate = currentDate.toString();
                     String outTime = currentTime.toString();
-                    LeaveLogHandler.addLogOutstation(id,outTime,null,outDate,null,false,reasonTextField.getText(),toLocTextField.getText());
+                    LeaveLogHandler.addLogOutstation(id,outTime,null,outDate,null,true,reasonTextField.getText(),toLocTextField.getText());
                 } else {
                     String inDate = currentDate.toString();
                     String inTime = currentTime.toString();

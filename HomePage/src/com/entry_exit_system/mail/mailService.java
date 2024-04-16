@@ -5,8 +5,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class mailService {
-
-    public void sendMailTo(String email,String subject,String msg){
+    public static void sendMailTo(String email,String subject,String msg){
         Properties popProps = new Properties();
         popProps.put("mail.pop3.host", "outlook.office365.com");
         popProps.put("mail.pop3.port", "995");

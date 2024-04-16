@@ -81,6 +81,8 @@ public class Form_Home extends javax.swing.JPanel {
                 if(StudentHandler.studentExist(idTextField.getText())){
                     Main main = (Main)SwingUtilities.getWindowAncestor(Form_Home.this);
                     main.setForm(new Form_Alt(idTextField.getText()));
+                } else {
+                    JOptionPane.showMessageDialog(null,"Invalid ID");
                 }
             }
         });
