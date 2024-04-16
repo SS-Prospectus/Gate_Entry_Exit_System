@@ -31,12 +31,16 @@ public class LeaveLogHandler {
     public static void addLogOutstation(String studentId, String outTime, String inTime, String outDate, String inDate,boolean outstation, String reason, String toLoc){
         try {
             int log_id = JDBC.getMostRecentLogId(studentId);
+            if (!JDBC.checkApproved(studentId, outDate)){
+                JOptionPane.showMessageDialog(null, "No Approved Leaves Found");
+                return;
+            }
             JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
             JDBC.insertOutstationLeave(studentId,1,toLoc);
             JDBC.updateInOut(studentId,"out");
-            JOptionPane.showMessageDialog(null, "Leave Started successfully");
+            JOptionPane.showMessageDialog(null, "Leave Started Successfully");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Unable to add leave");
+            JOptionPane.showMessageDialog(null, "Unable to Add Leave");
         }
     }
 

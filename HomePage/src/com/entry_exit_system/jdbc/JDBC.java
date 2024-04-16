@@ -27,6 +27,34 @@ public class JDBC {
         return connection;
     }
 
+    public static boolean checkApproved(String id, String outDate) throws SQLException {
+        String sql = "SELECT COUNT(leave_id) as cnt FROM ApprovedLeaves, Student WHERE ID=student_id AND ID=? AND DATEDIFF(?, from_date) <= 2;";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, id);
+        pstmt.setString(2, outDate);
+        ResultSet resultSet = pstmt.executeQuery();
+        if (resultSet.next()) {
+            int count = resultSet.getInt("cnt");
+            System.out.println(count);
+            return count > 0;
+        }
+        return false;
+    }
+
+    public static boolean checkApprovedOnEntry(String id, String inDate) throws SQLException {
+        String sql = "SELECT COUNT(leave_id) as cnt FROM ApprovedLeaves, Student WHERE ID=student_id AND ID=? AND DATEDIFF(to_date, ?) <= 2;";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, id);
+        pstmt.setString(2, inDate);
+        ResultSet resultSet = pstmt.executeQuery();
+        if (resultSet.next()) {
+            int count = resultSet.getInt("cnt");
+            System.out.println(count);
+            return count > 0;
+        }
+        return false;
+    }
+
     public static boolean checkStudent(String id) throws SQLException {
         String sql = "SELECT count(ID) as cnt FROM Student where ID = ?";
         PreparedStatement pstmt = connection.prepareStatement(sql);
