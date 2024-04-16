@@ -1,16 +1,15 @@
 package com.entry_exit_system.form;
 
 import com.entry_exit_system.jdbc.JDBC;
+import com.entry_exit_system.mail.mailService;
 
 import javax.swing.*;
 import java.sql.SQLException;
 import java.time.LocalTime;
 
 public class LeaveLogHandler {
-
     public static void addLog(String studentId, String outTime, String inTime, String outDate, String inDate,boolean outstation, String reason){
         try {
-            JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
             String outLimitStart = JDBC.getTimeLimitStart();
             LocalTime outLimStart = LocalTime.parse(outLimitStart);
             String outLimitEnd = JDBC.getTimeLimitEnd();
@@ -20,6 +19,7 @@ public class LeaveLogHandler {
             if(outtime.isBefore(outLimStart) || outtime.isAfter(outLimEnd)){
                 JOptionPane.showMessageDialog(null,"Not allowed to leave at this time");
             }else{
+                JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
                 JDBC.updateInOut(studentId,"out");
                 JOptionPane.showMessageDialog(null, "Leave Started successfully");
             }
@@ -36,6 +36,7 @@ public class LeaveLogHandler {
                 return;
             }
             JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
+            mailService.sendMailTo("f20220093@pilani.bits-pilani.pilani.ac.in","Your ward left campuss","out");
             JDBC.insertOutstationLeave(studentId,1,toLoc);
             JDBC.updateInOut(studentId,"out");
             JOptionPane.showMessageDialog(null, "Leave Started Successfully");
@@ -80,6 +81,7 @@ public class LeaveLogHandler {
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);
             JDBC.updateInOut(id,"in");
+            mailService.sendMailTo("f20220093@pilani.bits-pilani.pilani.ac.in","Your ward entered campuss","in");
             JOptionPane.showMessageDialog(null, "Entry Successful");
 
         }catch (SQLException e){
