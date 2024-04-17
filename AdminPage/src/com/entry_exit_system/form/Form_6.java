@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * @author RAVEN
  */
 public class  Form_6 extends javax.swing.JPanel {
-//    ArrayList<Leave_Logs_Model> LeaveLogsRecords;
     ArrayList<ParentalInfoModel> ParentalInfoRecords;
     private Timer autoUpdateTimer;
 
@@ -51,10 +50,10 @@ public class  Form_6 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         ParentalInfoRecords.forEach((ParentalInfoRecord)->{table.addRow(new Object[]{ParentalInfoRecord.id,ParentalInfoRecord.student_name, ParentalInfoRecord.guarddian_name,ParentalInfoRecord.guardian_phone_number} );});
-        final JTextField searchField = new JTextField("Search by Student_ID");
+        final JTextField searchField = new JTextField("Search by Student ID");
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
+                if (searchField.getText().equals("Search by Student ID")) {
                     searchField.setText("");
                 }
             }
@@ -81,7 +80,7 @@ public class  Form_6 extends javax.swing.JPanel {
                 model.setRowCount(0); // Clear existing rows
 
                 // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                if (searchText.isEmpty() || searchText.equals("Search by Student ID")) {
                     for (ParentalInfoModel info:ParentalInfoRecords) {
                         model.addRow(new Object[]{info.id,info.student_name, info.guarddian_name,info.guardian_phone_number});
                     }
@@ -115,7 +114,7 @@ public class  Form_6 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID"); // Clear the search field
+                searchField.setText("Search by Student ID"); // Clear the search field
             }
         });
 
@@ -177,7 +176,7 @@ public class  Form_6 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                                "ID","Student_Name", "Guardian_Name", "Guardian_Phone_Number"
+                                "ID","Student Name", "Guardian Name", "Guardian Phone Number"
                 }
         ) {
             boolean[] canEdit = new boolean [] {

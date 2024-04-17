@@ -162,7 +162,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Penalty_id", "Student_ID", "Date", "Reason","penalty_amount"
+                        "Penalty ID", "Student ID", "Date", "Reason","Penalty Amount"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -369,10 +369,10 @@ public class Form_2 extends javax.swing.JPanel {
         });
         // Inside initComponents() method, after initializing other components:
         // Inside initComponents() method, after initializing other components:
-        final JTextField searchField = new JTextField("Search by Student_ID");
+        final JTextField searchField = new JTextField("Search by Student ID");
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
+                if (searchField.getText().equals("Search by Student ID")) {
                     searchField.setText("");
                 }
                 if (txtReason.getText().equals("")) {
@@ -415,7 +415,7 @@ public class Form_2 extends javax.swing.JPanel {
                 model.setRowCount(0); // Clear existing rows
 
                 // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                if (searchText.isEmpty() || searchText.equals("Search by Student ID")) {
                     for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                     }
@@ -448,7 +448,7 @@ public class Form_2 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID");
+                searchField.setText("Search by Student ID");
                 if (txtReason.getText().equals("")) {
                     txtReason.setText("Reason");
                 }

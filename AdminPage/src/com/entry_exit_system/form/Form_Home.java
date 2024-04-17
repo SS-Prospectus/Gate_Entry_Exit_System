@@ -60,7 +60,7 @@ public class Form_Home extends javax.swing.JPanel {
 
     public Form_Home() {
         initComponents();
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total Leaves", outStudentsnumber));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Total OutStation Students", outStudentsnumber));
         card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/5.png")), "Total Penalized Students", penaltynumber));
         card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/6.png")), "Total Banned Students", banned));
         //  add row table
