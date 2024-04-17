@@ -54,7 +54,6 @@ public class Form_2 extends javax.swing.JPanel {
         }
     }
     // Add JTextField declarations
-    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtReason;
     private javax.swing.JTextField txtDate;
@@ -63,7 +62,6 @@ public class Form_2 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents() {
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
-        txtName = new javax.swing.JTextField("Penalty_id");
         txtID = new javax.swing.JTextField("Student_ID");
         txtReason = new javax.swing.JTextField("Reason");
         txtDate = new javax.swing.JTextField(); // Initialize without default text
@@ -78,7 +76,6 @@ public class Form_2 extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Retrieve values from text fields
-                String name = txtName.getText();
                 String id = txtID.getText();
                 String date = txtDate.getText();
                 String reason = txtReason.getText();
@@ -89,19 +86,18 @@ public class Form_2 extends javax.swing.JPanel {
 
                 try {
                     // Replace "url", "username", and "password" with your database connection details// Construct SQL INSERT statement
-                    String sql = "INSERT INTO Penalties (penalty_id, student_id, date_penalized, reason,total_penalty_amount) VALUES (?, ?, ?, ?,?)";
+                    String sql = "INSERT INTO Penalties (student_id, date_penalized, reason,total_penalty_amount) VALUES ( ?, ?, ?,?)";
                     pstmt = JDBC.connection.prepareStatement(sql);
-                    pstmt.setString(1, name);
-                    pstmt.setString(2, id);
-                    pstmt.setString(3, date);
-                    pstmt.setString(4, reason);
-                    pstmt.setString(5, penalty_amount);
+//                    pstmt.setString(1, name);
+                    pstmt.setString(1, id);
+                    pstmt.setString(2, date);
+                    pstmt.setString(3, reason);
+                    pstmt.setString(4, penalty_amount);
 
                     // Execute INSERT statement
                     pstmt.executeUpdate();
 
                     // Clear text fields after successful insertion
-                    txtName.setText("Penalty_id");
                     txtID.setText("Student_ID");
                     LocalDate currentDate = LocalDate.now();
                     // Convert LocalDate to String in the format "yyyy-MM-dd"
@@ -166,7 +162,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "Penalty_id", "Student_ID", "Date", "Reason","penalty_amount"
+                        "Penalty ID", "Student ID", "Date", "Reason","Penalty Amount"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -230,8 +226,6 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -250,7 +244,6 @@ public class Form_2 extends javax.swing.JPanel {
                                 .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,8 +258,6 @@ public class Form_2 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,7 +278,6 @@ public class Form_2 extends javax.swing.JPanel {
                                 .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -297,37 +287,11 @@ public class Form_2 extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
 
-        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtName.getText().equals("Penalty_id")) {
-                    txtName.setText("");
-                }
-                if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
-                }
-                if (txtPenaltyAmount.getText().equals("")) {
-                    txtPenaltyAmount.setText("Penalty Amount");
-                }
-                if (txtDate.getText().equals("")) {
-                    LocalDate currentDate = LocalDate.now();
-                    // Convert LocalDate to String in the format "yyyy-MM-dd"
-                    String dateString = currentDate.toString();
-                    // Set the date string to the text field
-                    txtDate.setText(dateString);
-                }
-                if (txtReason.getText().equals("")) {
-                    txtReason.setText("Reason");
-                }
-            }
-        });
 
         txtID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtID.getText().equals("Student_ID")) {
                     txtID.setText("");
-                }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
                 }
                 if (txtPenaltyAmount.getText().equals("")) {
                     txtPenaltyAmount.setText("Penalty Amount");
@@ -361,9 +325,6 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtID.getText().equals("")) {
                     txtID.setText("Student_ID");
                 }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
-                }
                 if (txtPenaltyAmount.getText().equals("")) {
                     txtPenaltyAmount.setText("Penalty Amount");
                 }
@@ -383,9 +344,6 @@ public class Form_2 extends javax.swing.JPanel {
                 }
                 if (txtID.getText().equals("")) {
                     txtID.setText("Student_ID");
-                }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
                 }
             }
         });
@@ -407,17 +365,14 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtID.getText().equals("")) {
                     txtID.setText("Student_ID");
                 }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
-                }
             }
         });
         // Inside initComponents() method, after initializing other components:
         // Inside initComponents() method, after initializing other components:
-        final JTextField searchField = new JTextField("Search by Student_ID");
+        final JTextField searchField = new JTextField("Search by Student ID");
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
+                if (searchField.getText().equals("Search by Student ID")) {
                     searchField.setText("");
                 }
                 if (txtReason.getText().equals("")) {
@@ -435,9 +390,6 @@ public class Form_2 extends javax.swing.JPanel {
                 }
                 if (txtID.getText().equals("")) {
                     txtID.setText("Student_ID");
-                }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
                 }
             }
         });
@@ -463,7 +415,7 @@ public class Form_2 extends javax.swing.JPanel {
                 model.setRowCount(0); // Clear existing rows
 
                 // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                if (searchText.isEmpty() || searchText.equals("Search by Student ID")) {
                     for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                     }
@@ -496,7 +448,7 @@ public class Form_2 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID");
+                searchField.setText("Search by Student ID");
                 if (txtReason.getText().equals("")) {
                     txtReason.setText("Reason");
                 }
@@ -513,9 +465,6 @@ public class Form_2 extends javax.swing.JPanel {
                 if (txtID.getText().equals("")) {
                     txtID.setText("Student_ID");
                 }
-                if (txtName.getText().equals("")) {
-                    txtName.setText("Penalty_id");
-                }// Clear the search field
             }
         });
 

@@ -1,6 +1,6 @@
 # Campus Gate Entry/Exit Record Management System
 
-## Problem Statement & Motivation
+## Motivation
 Manual recording of entry and exit times in educational institutions often leads to inaccuracies, delays, and inefficiencies. Additionally, managing leave applications and penalties manually can be time-consuming and prone to errors. This project was developed as a solution to streamline the process of recording entry and exit times of students and individuals from university premises. It offers an efficient and automated system that facilitates leave management, and provides a centralized database for administrators to manage student records effectively.
 
 ## Overview

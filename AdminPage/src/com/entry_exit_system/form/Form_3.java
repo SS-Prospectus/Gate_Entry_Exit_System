@@ -285,12 +285,12 @@ public class Form_3 extends javax.swing.JPanel {
             }
         });
 
-        final JTextField searchField = new JTextField("Search by Student_ID");
+        final JTextField searchField = new JTextField("Search by Student ID");
 //        searchField.setFont(new Font("sansserif", Font.PLAIN, 18));
 //        searchField.setColumns(10);
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
+                if (searchField.getText().equals("Search by Student ID")) {
                     searchField.setText("");
                 }
             }
@@ -317,7 +317,7 @@ public class Form_3 extends javax.swing.JPanel {
                 model.setRowCount(0); // Clear existing rows
 
                 // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                if (searchText.isEmpty() || searchText.equals("Search by Student ID")) {
                     for (PenaltyBanModel leave : bannedStudentsList) {
                         model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason,leave.penalty_amount});
                     }
@@ -351,7 +351,7 @@ public class Form_3 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID"); // Clear the search field
+                searchField.setText("Search by Student ID"); // Clear the search field
             }
         });
 

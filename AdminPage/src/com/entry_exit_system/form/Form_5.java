@@ -49,10 +49,10 @@ public class  Form_5 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         LeaveLogsRecords.forEach((outstationRecord)->{table.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.out_date, outstationRecord.out_time, outstationRecord.in_date,outstationRecord.in_time} );});
-        final JTextField searchField = new JTextField("Search by Student_ID");
+        final JTextField searchField = new JTextField("Search by Student ID");
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Search by Student_ID")) {
+                if (searchField.getText().equals("Search by Student ID")) {
                     searchField.setText("");
                 }
             }
@@ -79,7 +79,7 @@ public class  Form_5 extends javax.swing.JPanel {
                 model.setRowCount(0); // Clear existing rows
 
                 // If the search text is empty or equals default text, show full table
-                if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
+                if (searchText.isEmpty() || searchText.equals("Search by Student ID")) {
                     for (Leave_Logs_Model leave:LeaveLogsRecords) {
                         model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});
                     }
@@ -113,7 +113,7 @@ public class  Form_5 extends javax.swing.JPanel {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchField.setText("Search by Student_ID"); // Clear the search field
+                searchField.setText("Search by Student ID"); // Clear the search field
             }
         });
 
