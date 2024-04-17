@@ -59,6 +59,7 @@ public class JDBC {
 
     }
 
+
 //    public static void deleteOldLogs() throws SQLException {
 //        String sql = "DELETE FROM OutStationLog WHERE DATEDIFF(CURRENT_DATE(), in_date) > 365";
 //        System.out.println("Outstation Leave Logs Deleted");
