@@ -20,9 +20,13 @@ public class LeaveLogHandler {
             if(outtime.isBefore(outLimStart) || outtime.isAfter(outLimEnd)){
                 JOptionPane.showMessageDialog(null,"Not allowed to leave at this time");
             }else{
-                JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
-                JDBC.updateInOut(studentId,"out");
-                JOptionPane.showMessageDialog(null, "Leave Started successfully");
+                if(JDBC.checkBanned(studentId)){
+                    JOptionPane.showMessageDialog(null,"Not allowed to leave, you are banned !");
+                }else{
+                    JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
+                    JDBC.updateInOut(studentId,"out");
+                    JOptionPane.showMessageDialog(null, "Leave Started successfully");
+                }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Unable to add leave");
@@ -34,6 +38,10 @@ public class LeaveLogHandler {
             int log_id = JDBC.getMostRecentLogId(studentId);
             if (!JDBC.checkApproved(studentId, outDate)){
                 JOptionPane.showMessageDialog(null, "No Approved Leaves Found");
+                return;
+            }
+            if(JDBC.checkBanned(studentId)){
+                JOptionPane.showMessageDialog(null,"Not allowed to leave, you are banned !");
                 return;
             }
             JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
