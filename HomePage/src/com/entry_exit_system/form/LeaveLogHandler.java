@@ -73,8 +73,8 @@ public class LeaveLogHandler {
             JDBC.updateInOut(id,"in");
 
             if(intime.isBefore(inLimStart) || intime.isAfter(inLimEnd)){
-                JDBC.insertPenalty(id,log_id,100.00,inDate,"Late Entry");
-                JOptionPane.showMessageDialog(null, "You entered at invalid time, Penalty added of Rs. 100");
+                JDBC.insertPenalty(id,log_id,100.00,inDate,"Entry on inappropriate time");
+                JOptionPane.showMessageDialog(null, "Entered at invalid time, Penalty added of Rs. 100");
             } else {
                 JOptionPane.showMessageDialog(null, "Entry Successful");
             }
@@ -89,10 +89,17 @@ public class LeaveLogHandler {
         try{
             log_id = JDBC.getMostRecentLogId(id);
             if(log_id == -1){
-                JOptionPane.showMessageDialog(null,"No Leave log found");
+                JDBC.insertPenalty(id,log_id,500.00,inDate,"Entry without leave");
+                JOptionPane.showMessageDialog(null,"No Leave log found, Pentalty added of 500Rs.");
             }
             if (!JDBC.checkApprovedOnEntry(id, inDate)){
-                JOptionPane.showMessageDialog(null, "No Approved Leaves Found");
+                JDBC.updateLogTimes(log_id,inTime,inDate);
+                JDBC.updateInOut(id,"in");
+                JDBC.insertPenalty(id,log_id,500.00,inDate,"Entry on inappropriate time");
+                JOptionPane.showMessageDialog(null, "No Approved Leaves Found, Penalty added of 500Rs, You can enter");
+                HashMap<String, String> emailIds= JDBC.getEmailIds(id);
+                if (emailIds.isEmpty()) return;
+                mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + id + ") has entered the campus");
                 return;
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);

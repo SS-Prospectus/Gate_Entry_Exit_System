@@ -93,6 +93,7 @@ public class Form_Home extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         pendingLeaveList = PendingLeavesHandler.getPendingLeaves();
 
         txtID = new javax.swing.JTextField("Student ID");
