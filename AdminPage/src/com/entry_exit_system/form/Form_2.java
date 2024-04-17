@@ -25,8 +25,19 @@ import java.util.ArrayList;
 public class Form_2 extends javax.swing.JPanel {
 
     public ArrayList<PenaltyBanModel> penalizedLeaveList;
+    private Timer autoUpdateTimer;
     public Form_2() {
         initComponents();
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
@@ -34,6 +45,13 @@ public class Form_2 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         penalizedLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.name, pendingLeave.id, pendingLeave.date, pendingLeave.reason,pendingLeave.penalty_amount} );});
+    }
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (PenaltyBanModel leave : penalizedLeaveList) {
+            model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason, leave.penalty_amount});
+        }
     }
     // Add JTextField declarations
     private javax.swing.JTextField txtName;
@@ -44,6 +62,7 @@ public class Form_2 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents() {
+
 
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
         txtName = new javax.swing.JTextField("Penalty_id");

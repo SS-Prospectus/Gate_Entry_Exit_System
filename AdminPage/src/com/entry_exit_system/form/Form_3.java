@@ -18,9 +18,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 public class Form_3 extends javax.swing.JPanel {
     public ArrayList<PenaltyBanModel> bannedStudentsList;
+    private Timer autoUpdateTimer;
     public Form_3() {
         initComponents();
-  spTable.setVerticalScrollBar(new ScrollBar());
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                bannedStudentsList = BannedStudentsHandler.getBannedStudents();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
+        spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
@@ -28,6 +39,13 @@ public class Form_3 extends javax.swing.JPanel {
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         bannedStudentsList.forEach((bannedStudent)->{table.addRow(new Object[]{bannedStudent.id, bannedStudent.name, bannedStudent.date, bannedStudent.reason} );});
 
+    }
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (PenaltyBanModel leave : bannedStudentsList) {
+            model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason});
+        }
     }
 
     // Add JTextField declarations

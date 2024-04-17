@@ -6,7 +6,10 @@ import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,6 +18,7 @@ import static com.entry_exit_system.jdbc.JDBC.*;
 
 public class Form_Home extends javax.swing.JPanel {
     public ArrayList<PendingLeaveModel> pendingLeaveList;
+    private Timer autoUpdateTimer;
     public int bannedStudents;
 
     {
@@ -57,6 +61,16 @@ public class Form_Home extends javax.swing.JPanel {
         card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Penalized Students", penaltynumber));
         card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/stock.png")), "Total Banned Students", banned));
         //  add row table
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                pendingLeaveList = PendingLeavesHandler.getPendingLeaves();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
@@ -64,6 +78,13 @@ public class Form_Home extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         pendingLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, pendingLeave.reason, StatusType.APPROVED} );});
+    }
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (PendingLeaveModel pendingLeave : pendingLeaveList) {
+            model.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, pendingLeave.reason, StatusType.APPROVED});
+        }
     }
 
     @SuppressWarnings("unchecked")

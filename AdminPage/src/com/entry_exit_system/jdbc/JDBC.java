@@ -2,10 +2,7 @@ package com.entry_exit_system.jdbc;
 
 import com.entry_exit_system.GloablVariables;
 import com.entry_exit_system.form.TimeLimits;
-import com.entry_exit_system.model.Leave_Logs_Model;
-import com.entry_exit_system.model.OutstationRecordModel;
-import com.entry_exit_system.model.PenaltyBanModel;
-import com.entry_exit_system.model.PendingLeaveModel;
+import com.entry_exit_system.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -127,6 +124,26 @@ public class JDBC {
 //            System.out.println("Name: " + name + ", Banned: " + isBanned);
         }
         return outstationRecords;
+    }
+
+    public static ArrayList<ParentalInfoModel> getParentalInfoFromDB() throws SQLException {
+        String sql = "Select * from ParentInfo JOIN Student On Student.ID=ParentInfo.student_id";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<ParentalInfoModel> ParentalInfoRecords= new ArrayList<>();
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("student_id");
+            String student_name= resultSet.getString("Name");
+            String name = resultSet.getString("guardian_name");
+            String number = resultSet.getString("guardian_phone_number");
+            ParentalInfoModel ParentInfoRecord= new ParentalInfoModel(id,student_name,name,number);
+            ParentalInfoRecords.add(ParentInfoRecord);
+
+//            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");
+//            System.out.println("Name: " + name + ", Banned: " + isBanned);
+        }
+        return ParentalInfoRecords;
     }
 
     public static ArrayList<PenaltyBanModel> getBannedStudentsFromDB() throws SQLException {

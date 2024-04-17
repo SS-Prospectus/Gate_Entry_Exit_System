@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 public class  Form_1 extends javax.swing.JPanel {
     ArrayList<OutstationRecordModel> outstationRecords;
+    private Timer autoUpdateTimer;
 
     public Form_1() {
 
@@ -26,6 +27,16 @@ public class  Form_1 extends javax.swing.JPanel {
 //        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/profit.png")), "Total Profit", "$15000", "Increased by 25%"));
 //        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/entry_exit_system/icon/flag.png")), "Unique Visitors", "$300000", "Increased by 70%"));
         //  add row table
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                outstationRecords =OutstationRecordsHandler.getOutstationRecords();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
@@ -93,6 +104,13 @@ public class  Form_1 extends javax.swing.JPanel {
 // Add the clear button to the panel
         panel.add(clearButton);
 
+    }
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (OutstationRecordModel outstationRecord : outstationRecords) {
+            model.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.outDate, outstationRecord.inDate, outstationRecord.destination});
+        }
     }
 
     // Add JTextField declarations

@@ -5,7 +5,7 @@
  */
 package com.entry_exit_system.form;
 
-import com.entry_exit_system.model.Leave_Logs_Model;
+import com.entry_exit_system.model.ParentalInfoModel;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
@@ -22,7 +22,9 @@ import java.util.ArrayList;
  * @author RAVEN
  */
 public class  Form_6 extends javax.swing.JPanel {
-    ArrayList<Leave_Logs_Model> LeaveLogsRecords;
+//    ArrayList<Leave_Logs_Model> LeaveLogsRecords;
+    ArrayList<ParentalInfoModel> ParentalInfoRecords;
+    private Timer autoUpdateTimer;
 
     /**
      * Creates new form Form_1
@@ -30,6 +32,17 @@ public class  Form_6 extends javax.swing.JPanel {
     public Form_6() {
 
         initComponents();
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                ParentalInfoRecords = ParentalInfoHandler.getParentalInfoRecords();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
+
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -37,7 +50,7 @@ public class  Form_6 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        LeaveLogsRecords.forEach((outstationRecord)->{table.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.out_date, outstationRecord.out_time, outstationRecord.in_date,outstationRecord.in_time} );});
+        ParentalInfoRecords.forEach((ParentalInfoRecord)->{table.addRow(new Object[]{ParentalInfoRecord.id,ParentalInfoRecord.student_name, ParentalInfoRecord.guarddian_name,ParentalInfoRecord.guardian_phone_number} );});
         final JTextField searchField = new JTextField("Search by Student_ID");
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -69,14 +82,14 @@ public class  Form_6 extends javax.swing.JPanel {
 
                 // If the search text is empty or equals default text, show full table
                 if (searchText.isEmpty() || searchText.equals("Search by Student_ID")) {
-                    for (Leave_Logs_Model leave:LeaveLogsRecords) {
-                        model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});
+                    for (ParentalInfoModel info:ParentalInfoRecords) {
+                        model.addRow(new Object[]{info.id,info.student_name, info.guarddian_name,info.guardian_phone_number});
                     }
                 } else {
                     // Search for matching Student_ID
-                    for (Leave_Logs_Model leave : LeaveLogsRecords) {
-                        if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
-                            model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});
+                    for (ParentalInfoModel info:ParentalInfoRecords) {
+                        if (info.id.toLowerCase().contains(searchText.toLowerCase())) {
+                            model.addRow(new Object[]{info.id,info.student_name, info.guarddian_name,info.guardian_phone_number});
                         }
                     }
                 }
@@ -102,28 +115,29 @@ public class  Form_6 extends javax.swing.JPanel {
 // Add the clear button to the pane
 
     }
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (ParentalInfoModel info : ParentalInfoRecords) {
+            model.addRow(new Object[]{info.id,info.student_name, info.guarddian_name,info.guardian_phone_number});
+        }
+    }
 
     // Add JTextField declarations
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtReason;
-    private javax.swing.JTextField txtOutDate;
-    private javax.swing.JTextField txtInDate;
-    private javax.swing.JTextField txtDestination;
 
 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        LeaveLogsRecords = LeaveLogsHandler.getLeaveLogs();
+        ParentalInfoRecords = ParentalInfoHandler.getParentalInfoRecords();
 
         txtName = new javax.swing.JTextField("Name");
         txtID = new javax.swing.JTextField("ID");
         txtReason = new javax.swing.JTextField("Reason");
-        txtOutDate = new javax.swing.JTextField("Out Date");
-        txtInDate = new javax.swing.JTextField("In Date");
-        txtDestination = new javax.swing.JTextField("Destination");
 
 
         panel = new javax.swing.JLayeredPane();
@@ -153,11 +167,11 @@ public class  Form_6 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "ID", "Name", "Reason", "Out Date","Out Time", "In Date","In Time"
+                        "ID","Student_Name", "Guardian_Name", "Guardian_Phone_Number"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false,false
+                    false,false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

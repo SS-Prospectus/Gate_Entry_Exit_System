@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class  Form_5 extends javax.swing.JPanel {
     ArrayList<Leave_Logs_Model> LeaveLogsRecords;
+    private Timer autoUpdateTimer;
 
     /**
      * Creates new form Form_1
@@ -30,6 +31,16 @@ public class  Form_5 extends javax.swing.JPanel {
     public Form_5() {
 
         initComponents();
+        autoUpdateTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Refresh the data and table
+                LeaveLogsRecords = LeaveLogsHandler.getLeaveLogs();
+                refreshTable();
+            }
+        });
+        // Start the timer
+        autoUpdateTimer.start();
         //  add row table
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -101,6 +112,14 @@ public class  Form_5 extends javax.swing.JPanel {
 
 // Add the clear button to the pane
 
+    }
+
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        for (Leave_Logs_Model leave : LeaveLogsRecords) {
+            model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});
+        }
     }
 
     // Add JTextField declarations
