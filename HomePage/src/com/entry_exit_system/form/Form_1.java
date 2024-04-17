@@ -77,6 +77,8 @@ public class Form_1 extends javax.swing.JPanel {
                 if(StudentHandler.studentExist(idTextField.getText())){
                     Main main = (Main)SwingUtilities.getWindowAncestor(Form_1.this);
                     main.setForm(new Form_Alt_2(idTextField.getText()));
+                } else {
+                    JOptionPane.showMessageDialog(null,"Invalid ID");
                 }
             }
         });

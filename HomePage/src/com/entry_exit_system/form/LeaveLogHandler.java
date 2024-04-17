@@ -1,16 +1,16 @@
 package com.entry_exit_system.form;
 
 import com.entry_exit_system.jdbc.JDBC;
+import com.entry_exit_system.mail.mailService;
 
 import javax.swing.*;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.util.HashMap;
 
 public class LeaveLogHandler {
-
     public static void addLog(String studentId, String outTime, String inTime, String outDate, String inDate,boolean outstation, String reason){
         try {
-            JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
             String outLimitStart = JDBC.getTimeLimitStart();
             LocalTime outLimStart = LocalTime.parse(outLimitStart);
             String outLimitEnd = JDBC.getTimeLimitEnd();
@@ -20,6 +20,7 @@ public class LeaveLogHandler {
             if(outtime.isBefore(outLimStart) || outtime.isAfter(outLimEnd)){
                 JOptionPane.showMessageDialog(null,"Not allowed to leave at this time");
             }else{
+                JDBC.insertLeaveLog(studentId,outTime,inTime,outDate,inDate,outstation,reason);
                 JDBC.updateInOut(studentId,"out");
                 JOptionPane.showMessageDialog(null, "Leave Started successfully");
             }
@@ -39,6 +40,10 @@ public class LeaveLogHandler {
             JDBC.insertOutstationLeave(studentId,1,toLoc);
             JDBC.updateInOut(studentId,"out");
             JOptionPane.showMessageDialog(null, "Leave Started Successfully");
+            HashMap<String, String> emailIds= JDBC.getEmailIds(studentId);
+            if (emailIds.isEmpty()) return;
+            mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + studentId + ") has left the campus");
+            mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + "has left the campus");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Unable to Add Leave");
         }
@@ -78,9 +83,17 @@ public class LeaveLogHandler {
             if(log_id == -1){
                 JOptionPane.showMessageDialog(null,"No Leave log found");
             }
+            if (!JDBC.checkApprovedOnEntry(id, inDate)){
+                JOptionPane.showMessageDialog(null, "No Approved Leaves Found");
+                return;
+            }
             JDBC.updateLogTimes(log_id,inTime,inDate);
             JDBC.updateInOut(id,"in");
             JOptionPane.showMessageDialog(null, "Entry Successful");
+            HashMap<String, String> emailIds= JDBC.getEmailIds(id);
+            if (emailIds.isEmpty()) return;
+            mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + id + ") has entered the campus");
+//            mailService.sendMailTo(emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + "has entered the campus");
 
         }catch (SQLException e){
             e.printStackTrace();

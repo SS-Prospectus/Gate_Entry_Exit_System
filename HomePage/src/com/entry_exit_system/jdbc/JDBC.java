@@ -3,6 +3,7 @@ package com.entry_exit_system.jdbc;
 import com.entry_exit_system.GloablVariables;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,23 @@ public class JDBC {
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connected to the database!\n");
         return connection;
+    }
+
+    public static HashMap<String, String> getEmailIds(String id) throws SQLException {
+        HashMap<String, String> res= new HashMap<>();
+        String sql = "SELECT parent_email, warden_email FROM Boarder WHERE student_id=?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, id);
+        ResultSet resultSet = pstmt.executeQuery();
+        if (resultSet.next()) {
+            String parentEmail = resultSet.getString("parent_email");
+            String wardenEmail = resultSet.getString("warden_email");
+
+            System.out.println(parentEmail);
+            System.out.println(wardenEmail);
+            res.put(parentEmail, wardenEmail);
+        }
+        return res;
     }
 
     public static boolean checkApproved(String id, String outDate) throws SQLException {

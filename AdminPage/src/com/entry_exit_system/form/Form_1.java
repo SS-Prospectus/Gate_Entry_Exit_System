@@ -16,17 +16,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-/**
- *
- * @author RAVEN
- */
 public class  Form_1 extends javax.swing.JPanel {
     ArrayList<OutstationRecordModel> outstationRecords;
 
-    /**
-     * Creates new form Form_1
-     */
     public Form_1() {
 
         initComponents();
@@ -115,7 +107,7 @@ public class  Form_1 extends javax.swing.JPanel {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    public void initComponents() {
         outstationRecords = OutstationRecordsHandler.getOutstationRecords();
 
         // Inside initComponents() method, after spTable.setViewportView(table):
@@ -248,5 +240,4 @@ public class  Form_1 extends javax.swing.JPanel {
     private com.entry_exit_system.swing.PanelBorder panelBorder1;
     private javax.swing.JScrollPane spTable;
     private com.entry_exit_system.swing.Table table;
-    // End of variables declaration//GEN-END:variables
 }
