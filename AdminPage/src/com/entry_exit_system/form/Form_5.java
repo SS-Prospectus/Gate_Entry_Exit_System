@@ -182,7 +182,7 @@ public class  Form_5 extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "ID", "Name", "Reason", "Out Date","Out Time", "In Date","In Time"
+                        "ID","Name","Reason","Out Date","Out Time","In Date","In Time"
                 }
         ) {
             boolean[] canEdit = new boolean [] {

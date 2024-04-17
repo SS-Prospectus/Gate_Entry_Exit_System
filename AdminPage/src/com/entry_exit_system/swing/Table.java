@@ -1,12 +1,9 @@
 package com.entry_exit_system.swing;
 
-import com.entry_exit_system.model.StatusType;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class Table extends JTable {
 
@@ -28,21 +25,18 @@ public class Table extends JTable {
         setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean bln1, int i, int i1) {
-                if (true) {
-                    Component com = super.getTableCellRendererComponent(jtable, o, selected, bln1, i, i1);
-                    com.setBackground(Color.WHITE);
-                    setBorder(noFocusBorder);
-                    if (selected) {
-                        com.setForeground(new Color(15, 89, 140));
-                    } else {
-                        com.setForeground(new Color(102, 102, 102));
-                    }
-                    return com;
+                Component com = super.getTableCellRendererComponent(jtable, o, selected, bln1, i, i1);
+                com.setBackground(Color.WHITE);
+                setBorder(noFocusBorder);
+                if (selected) {
+                    com.setForeground(new Color(15, 89, 140));
                 } else {
-                    StatusType type = (StatusType) o;
-                    CellStatus cell = new CellStatus(type);
-                    return cell;
+                    com.setForeground(new Color(102, 102, 102));
                 }
+                // Center the text horizontally and vertically
+                setHorizontalAlignment(JLabel.CENTER);
+                setVerticalAlignment(JLabel.CENTER);
+                return com;
             }
         });
     }
@@ -50,5 +44,16 @@ public class Table extends JTable {
     public void addRow(Object[] row) {
         DefaultTableModel model = (DefaultTableModel) getModel();
         model.addRow(row);
+        adjustColumnWidths(); // Adjust column widths after adding row
+    }
+
+    private void adjustColumnWidths() {
+        int columns = getColumnCount();
+        int width = getWidth();
+        int columnWidth = width / columns;
+
+        for (int i = 0; i < columns; i++) {
+            getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
+        }
     }
 }

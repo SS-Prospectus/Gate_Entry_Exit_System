@@ -1,18 +1,16 @@
 package com.entry_exit_system.swing;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class TableHeader extends JLabel {
 
     public TableHeader(String text) {
-        super(text);
+        super(text, SwingConstants.CENTER); // Set horizontal alignment to left
         setOpaque(true);
         setBackground(Color.WHITE);
-        setFont(new Font("sansserif", 1, 12));
+        setFont(new Font("sansserif", Font.BOLD, 12)); // Use Font.BOLD for better visibility
         setForeground(new Color(102, 102, 102));
         setBorder(new EmptyBorder(10, 5, 10, 5));
     }
@@ -22,5 +20,18 @@ public class TableHeader extends JLabel {
         super.paintComponent(grphcs);
         grphcs.setColor(new Color(230, 230, 230));
         grphcs.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension size = super.getPreferredSize();
+        size.width = calculatePreferredWidth(); // Calculate preferred width for each column
+        return size;
+    }
+
+    private int calculatePreferredWidth() {
+        FontMetrics metrics = getFontMetrics(getFont());
+        int width = metrics.stringWidth(getText()) + 20; // Add padding
+        return width;
     }
 }

@@ -11,10 +11,10 @@ import com.entry_exit_system.form.Form_Alt;
 import com.entry_exit_system.form.Form_Home;
 import com.entry_exit_system.jdbc.JDBC;
 
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JComponent;
 
-public class Main extends javax.swing.JFrame {
+public class    Main extends javax.swing.JFrame {
 
     private Form_Home home;
     private Form_1 form1;
