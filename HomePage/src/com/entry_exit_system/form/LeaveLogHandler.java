@@ -51,7 +51,7 @@ public class LeaveLogHandler {
             HashMap<String, String> emailIds= JDBC.getEmailIds(studentId);
             if (emailIds.isEmpty()) return;
             mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + studentId + ") has left the campus");
-            mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + "has left the campus");
+            mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + " has left the campus");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Unable to Add Leave");
         }
@@ -100,7 +100,7 @@ public class LeaveLogHandler {
                 HashMap<String, String> emailIds= JDBC.getEmailIds(id);
                 if (emailIds.isEmpty()) return;
                 mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (ID: " + id + ") has entered the campus");
-                mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + "has entered the campus");
+                mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + " has entered the campus");
 
                 return;
             }
