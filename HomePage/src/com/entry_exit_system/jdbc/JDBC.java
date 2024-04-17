@@ -84,6 +84,16 @@ public class JDBC {
         }
         return false;
     }
+    public static boolean checkBanned(String id) throws SQLException {
+        String sql = "SELECT banned FROM Student WHERE ID = ?";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, id);
+        ResultSet resultSet = pstmt.executeQuery();
+        if(resultSet.next()){
+                return resultSet.getBoolean("banned");
+        }
+        return false;
+    }
 
     public static boolean checkInOut(String id) throws SQLException {
         String sql = "SELECT campus_in_out as cnt FROM Student where ID = ?";
