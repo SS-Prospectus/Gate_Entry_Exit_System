@@ -112,18 +112,6 @@ public class Form_3 extends javax.swing.JPanel {
 
         panel.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
-//        card1.setColor1(new java.awt.Color(142, 142, 250));
-//        card1.setColor2(new java.awt.Color(123, 123, 245));
-//        panel.add(card1);
-//
-//        card2.setColor1(new java.awt.Color(186, 123, 247));
-//        card2.setColor2(new java.awt.Color(167, 94, 236));
-//        panel.add(card2);
-//
-//        card3.setColor1(new java.awt.Color(241, 208, 62));
-//        card3.setColor2(new java.awt.Color(211, 184, 61));
-//        panel.add(card3);
-
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -258,12 +246,6 @@ public class Form_3 extends javax.swing.JPanel {
                                 .addGap(20, 20, 20))
         );
 
-
-        // Inside the initComponents() method, after initializing the text fields:
-
-// Add FocusListener to clear default text when clicked
-
-
         txtID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (txtID.getText().equals("Student ID")) {
@@ -287,7 +269,7 @@ public class Form_3 extends javax.swing.JPanel {
         });
 
         final JTextField searchField = new JTextField("Search by Student_ID");
-        searchField.setFont(new Font("sansserif", Font.PLAIN, 18));
+//        searchField.setFont(new Font("sansserif", Font.PLAIN, 18));
 //        searchField.setColumns(10);
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -334,7 +316,17 @@ public class Form_3 extends javax.swing.JPanel {
         });
 
 // Add the search component to the panel
-        panel.add(searchField);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.8; // 80% of the width
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(searchField, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.2; // 20% of the width
+
 
 // Create clear button
         JButton clearButton = new JButton("Clear");
@@ -347,7 +339,7 @@ public class Form_3 extends javax.swing.JPanel {
         });
 
 // Add the clear button to the panel
-        panel.add(clearButton);
+        panel.add(clearButton, gbc);
 
 
 

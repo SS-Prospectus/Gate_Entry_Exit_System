@@ -44,7 +44,11 @@ public class  Form_1 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         outstationRecords.forEach((outstationRecord)->{table.addRow(new Object[]{outstationRecord.id, outstationRecord.name, outstationRecord.reason, outstationRecord.outDate, outstationRecord.inDate, outstationRecord.destination} );});
+
         final JTextField searchField = new JTextField("Search by Student_ID");
+
+        JButton clearButton = new JButton("Clear");
+
         searchField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().equals("Search by Student_ID")) {
@@ -89,11 +93,17 @@ public class  Form_1 extends javax.swing.JPanel {
             }
         });
 
-// Add the search component to the panel
-        panel.add(searchField);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.8; // 80% of the width
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(searchField, gbc);
 
-// Create clear button
-        JButton clearButton = new JButton("Clear");
+        gbc.gridx = 1;
+        gbc.weightx = 0.2; // 20% of the width
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,8 +111,9 @@ public class  Form_1 extends javax.swing.JPanel {
             }
         });
 
+
 // Add the clear button to the panel
-        panel.add(clearButton);
+        panel.add(clearButton, gbc);
 
     }
     private void refreshTable() {

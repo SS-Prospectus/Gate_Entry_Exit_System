@@ -62,8 +62,6 @@ public class Form_2 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents() {
-
-
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
         txtName = new javax.swing.JTextField("Penalty_id");
         txtID = new javax.swing.JTextField("Student_ID");
@@ -146,9 +144,6 @@ public class Form_2 extends javax.swing.JPanel {
         });
 
         panel = new javax.swing.JLayeredPane();
-        card1 = new com.entry_exit_system.component.Card();
-        card2 = new com.entry_exit_system.component.Card();
-        card3 = new com.entry_exit_system.component.Card();
         panelBorder1 = new com.entry_exit_system.swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
@@ -484,7 +479,17 @@ public class Form_2 extends javax.swing.JPanel {
         });
 
 // Add the search component to the panel
-        panel.add(searchField);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.8; // 80% of the width
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(searchField, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.2; // 20% of the width
+
 
 // Create clear button
         JButton clearButton = new JButton("Clear");
@@ -515,16 +520,10 @@ public class Form_2 extends javax.swing.JPanel {
         });
 
 // Add the clear button to the panel
-        panel.add(clearButton);
+        panel.add(clearButton,gbc);
 
     }// </editor-fold>//GEN-END:initComponents
 
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.entry_exit_system.component.Card card1;
-    private com.entry_exit_system.component.Card card2;
-    private com.entry_exit_system.component.Card card3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane panel;
     private com.entry_exit_system.swing.PanelBorder panelBorder1;

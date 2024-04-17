@@ -95,9 +95,19 @@ public class  Form_5 extends javax.swing.JPanel {
         });
 
 // Add the search component to the panel
-        panel.add(searchField);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.8; // 80% of the width
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(searchField, gbc);
 
-        searchField.setBorder(null);
+        gbc.gridx = 1;
+        gbc.weightx = 0.2; // 20% of the width
+
+
+//        searchField.setBorder(null);
         JButton clearButton = new JButton("Clear");
 
         clearButton.addActionListener(new ActionListener() {
@@ -108,7 +118,7 @@ public class  Form_5 extends javax.swing.JPanel {
         });
 
 // Add the clear button to the panel
-        panel.add(clearButton);
+        panel.add(clearButton, gbc);
 
 // Add the clear button to the pane
 
