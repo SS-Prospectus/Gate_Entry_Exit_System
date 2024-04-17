@@ -1,6 +1,7 @@
 package com.entry_exit_system.form;
 
 import com.entry_exit_system.model.Model_Card;
+import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
@@ -52,11 +53,9 @@ public class Form_Home extends javax.swing.JPanel {
     }
     String outStudentsnumber = String.valueOf(outStudents);
 
-    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtReason;
-    private javax.swing.JTextField txtDate;
-    private javax.swing.JTextField txtPenaltyAmount;
+    private javax.swing.JTextField txtFrom;
+    private javax.swing.JTextField txtTo;
 
     public Form_Home() {
         initComponents();
@@ -68,7 +67,7 @@ public class Form_Home extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Refresh the data and table
-                pendingLeaveList = PendingLeavesHandler.getPendingLeaves();
+                pendingLeaveList  = PendingLeavesHandler.getPendingLeaves();
                 refreshTable();
             }
         });
@@ -80,13 +79,13 @@ public class Form_Home extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        pendingLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, pendingLeave.reason, StatusType.APPROVED} );});
+        pendingLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, StatusType.APPROVED} );});
     }
     private void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear existing rows
         for (PendingLeaveModel pendingLeave : pendingLeaveList) {
-            model.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, pendingLeave.reason, StatusType.APPROVED});
+            model.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, StatusType.APPROVED});
         }
     }
 
@@ -97,25 +96,29 @@ public class Form_Home extends javax.swing.JPanel {
         pendingLeaveList = PendingLeavesHandler.getPendingLeaves();
 
         txtID = new javax.swing.JTextField("Student ID");
-        txtName = new javax.swing.JTextField("Name");
-        txtDate = new javax.swing.JTextField("From");
-        txtReason = new javax.swing.JTextField("To");
-        txtPenaltyAmount = new javax.swing.JTextField("Reason");
+        txtFrom = new javax.swing.JTextField("From");
+        txtTo = new javax.swing.JTextField("To");
         JButton addButton = new JButton("Add Data");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = txtID.getText();
-                String name = txtName.getText();
-                String date = txtDate.getText();
-                String reason = txtReason.getText();
-                String penaltyAmount = txtPenaltyAmount.getText();
+                String from = txtFrom.getText();
+                String to = txtTo.getText();
 
                 txtID.setText("Student ID");
-                txtName.setText("Name");
-                txtDate.setText("From");
-                txtReason.setText("To");
-                txtPenaltyAmount.setText("Reason");
+                txtFrom.setText("From");
+                txtTo.setText("To");
+
+                PendingLeavesHandler.addApproved(id, from, to);
+
+                pendingLeaveList = PendingLeavesHandler.getPendingLeaves();
+                // Update table model with new dataset
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+                for (PendingLeaveModel leave : pendingLeaveList) {
+                    model.addRow(new Object[]{leave.id, leave.name, leave.fromDate, leave.toDate, StatusType.APPROVED});
+                }
             }
         });
 
@@ -158,7 +161,7 @@ public class Form_Home extends javax.swing.JPanel {
 
                 },
                 new String [] {
-                        "ID", "Name", "From", "To", "Reason", "Status"
+                        "ID", "Name", "From", "To","Status"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -183,16 +186,14 @@ public class Form_Home extends javax.swing.JPanel {
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                                                .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(addButton))
                                 .addGap(20, 20, 20))
-        );
+        ));
 
         panelBorder1Layout.setVerticalGroup(
                 panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,10 +205,9 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(addButton)
                                 .addGap(20, 20, 20))

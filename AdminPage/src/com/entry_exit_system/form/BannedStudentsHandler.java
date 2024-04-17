@@ -70,7 +70,7 @@ public class BannedStudentsHandler {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database.");
+            JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database. This may be due to invalid input.");
 
         } finally {
             try {

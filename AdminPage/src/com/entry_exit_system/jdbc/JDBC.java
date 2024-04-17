@@ -85,7 +85,7 @@ public class JDBC {
     }
 
     public static ArrayList<PendingLeaveModel> getPendingLeavesFromDB() throws SQLException {
-        String sql = "SELECT * FROM Student, OutStationLog NATURAL JOIN LeaveLogs WHERE student_id=ID AND DATEDIFF(CURDATE(), out_date) < 30";
+        String sql = "SELECT * FROM Student, ApprovedLeaves WHERE student_id=ID AND DATEDIFF(CURDATE(), from_date) < 30";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
         ArrayList<PendingLeaveModel> pendingLeaveList= new ArrayList<>();
@@ -93,10 +93,9 @@ public class JDBC {
         while (resultSet.next()) {
             String id     = resultSet.getString("ID");
             String name   = resultSet.getString("Name");
-            String from   = resultSet.getString("out_date");
-            String to     = resultSet.getString("in_date");
-            String reason = resultSet.getString("reason");
-            PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, from, to, reason, "APPROVED");
+            String from   = resultSet.getString("from_date");
+            String to     = resultSet.getString("to_date");
+            PendingLeaveModel pendingLeave=new PendingLeaveModel(name, id, from, to, "APPROVED");
             pendingLeaveList.add(pendingLeave);
 
 //            System.out.println("ID: " + id + "\nName: " + name + "\nIn/Out: " + inOut + "\nBanned: " + isBanned + "\n");

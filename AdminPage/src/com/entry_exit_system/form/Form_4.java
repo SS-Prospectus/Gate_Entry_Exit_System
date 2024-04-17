@@ -131,9 +131,9 @@ protected void paintComponent(Graphics g) {
 
                         populateTimeFields();
 
-                        showMessageDialog(Form_4.this, "The Time is Set", "Bingo", JOptionPane.INFORMATION_MESSAGE, Color.GREEN);
+                        JOptionPane.showMessageDialog(null, "Time was Set Successfully");
                     } else {
-                        showMessageDialog(Form_4.this, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE, Color.RED);
+                        JOptionPane.showMessageDialog(null, "Invalid Input");
                     }
 
                 } catch (SQLException ex) {

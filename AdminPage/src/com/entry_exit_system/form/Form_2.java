@@ -59,13 +59,11 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtPenaltyAmount;
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents() {
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
         txtID = new javax.swing.JTextField("Student_ID");
         txtReason = new javax.swing.JTextField("Reason");
-        txtDate = new javax.swing.JTextField(); // Initialize without default text
-// Set the default value to the current date
+        txtDate = new javax.swing.JTextField();
         LocalDate currentDate = LocalDate.now();
         String dateString = currentDate.toString();
         txtDate.setText(dateString);
@@ -85,50 +83,37 @@ public class Form_2 extends javax.swing.JPanel {
                 PreparedStatement pstmt = null;
 
                 try {
-                    // Replace "url", "username", and "password" with your database connection details// Construct SQL INSERT statement
                     String sql = "INSERT INTO Penalties (student_id, date_penalized, reason,total_penalty_amount) VALUES ( ?, ?, ?,?)";
                     pstmt = JDBC.connection.prepareStatement(sql);
-//                    pstmt.setString(1, name);
                     pstmt.setString(1, id);
                     pstmt.setString(2, date);
                     pstmt.setString(3, reason);
                     pstmt.setString(4, penalty_amount);
 
-                    // Execute INSERT statement
                     pstmt.executeUpdate();
 
-                    // Clear text fields after successful insertion
                     txtID.setText("Student_ID");
                     LocalDate currentDate = LocalDate.now();
-                    // Convert LocalDate to String in the format "yyyy-MM-dd"
                     String dateString = currentDate.toString();
-                    // Set the date string to the text field
                     txtDate.setText(dateString);
-//                    txtDate.setText("Date");
                     txtReason.setText("Reason");
                     txtPenaltyAmount.setText("Penalty Amount");
 
-                    // Retrieve updated dataset from the database
                     penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
 
-                    // Update table model with new dataset
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
-                    model.setRowCount(0); // Clear existing rows
+                    model.setRowCount(0);
                     for (PenaltyBanModel leave : penalizedLeaveList) {
                         model.addRow(new Object[]{leave.name, leave.id, leave.date, leave.reason,leave.penalty_amount});
                     }
 
-                    // Optionally, display a success message to the user
                     JOptionPane.showMessageDialog(null, "Data added successfully!");
 
                 } catch (SQLException ex) {
-                    // Handle database errors
                     ex.printStackTrace();
-                    // Optionally, display an error message to the user
-                    JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database.");
+                    JOptionPane.showMessageDialog(null, "Error: Unable to add data to the database. This may be due to Invalid Input.");
 
                 } finally {
-                    // Close PreparedStatement and Connection
                     try {
                         if (pstmt != null) pstmt.close();
                         if (conn != null) conn.close();
