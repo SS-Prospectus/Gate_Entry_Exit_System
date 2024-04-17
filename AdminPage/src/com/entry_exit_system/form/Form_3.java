@@ -67,6 +67,7 @@ public class Form_3 extends javax.swing.JPanel {
         txtReason = new javax.swing.JTextField("Reason");
 
         JButton addButton = new JButton("Add Data");
+        JButton removeButton = new JButton("Remove Data");
 
 
         addButton.addActionListener(new ActionListener() {
@@ -90,19 +91,35 @@ public class Form_3 extends javax.swing.JPanel {
                 for (PenaltyBanModel leave : bannedStudentsList) {
                     model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason});
                 }
+            }
+        });
 
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Reset the text fields to their original values
+                String id = txtID.getText();
+                String reason = txtReason.getText();
 
+                // Clear text fields after successful insertion
+                txtID.setText("Student ID");
+                txtReason.setText("Reason");
 
+                BannedStudentsHandler.removeBan(id);
 
+                bannedStudentsList = BannedStudentsHandler.getBannedStudents();
+
+                // Update table model with new dataset
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0); // Clear existing rows
+                for (PenaltyBanModel leave : bannedStudentsList) {
+                    model.addRow(new Object[]{leave.id, leave.name, leave.date, leave.reason});
+                }
             }
         });
 
 
-
         panel = new javax.swing.JLayeredPane();
-        card1 = new com.entry_exit_system.component.Card();
-        card2 = new com.entry_exit_system.component.Card();
-        card3 = new com.entry_exit_system.component.Card();
         panelBorder1 = new com.entry_exit_system.swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
@@ -224,7 +241,8 @@ public class Form_3 extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 
                                                 .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(addButton)) // Add the button here
+                                        .addComponent(addButton)
+                                        .addComponent(removeButton)) // Add the button here
                                 .addGap(20, 20, 20))
         );
 
@@ -240,7 +258,8 @@ public class Form_3 extends javax.swing.JPanel {
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addButton) // Add the button here
+                                .addComponent(addButton)
+                                .addComponent(removeButton)// Add the button here
                                 .addGap(20, 20, 20))
         );
 
@@ -338,9 +357,6 @@ public class Form_3 extends javax.swing.JPanel {
 
 // Add the clear button to the panel
         panel.add(clearButton, gbc);
-
-
-
     }// </editor-fold>//GEN-END:initComponents
 
 
