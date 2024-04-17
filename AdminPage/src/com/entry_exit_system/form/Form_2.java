@@ -61,7 +61,7 @@ public class Form_2 extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     public void initComponents() {
         penalizedLeaveList = PenalizedStudentsHandler.getPenalizedStudents();
-        txtID = new javax.swing.JTextField("Student_ID");
+        txtID = new javax.swing.JTextField("Student ID");
         txtReason = new javax.swing.JTextField("Reason");
         txtDate = new javax.swing.JTextField();
         LocalDate currentDate = LocalDate.now();
@@ -92,7 +92,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                     pstmt.executeUpdate();
 
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                     LocalDate currentDate = LocalDate.now();
                     String dateString = currentDate.toString();
                     txtDate.setText(dateString);
@@ -275,7 +275,7 @@ public class Form_2 extends javax.swing.JPanel {
 
         txtID.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtID.getText().equals("Student_ID")) {
+                if (txtID.getText().equals("Student ID")) {
                     txtID.setText("");
                 }
                 if (txtPenaltyAmount.getText().equals("")) {
@@ -308,7 +308,7 @@ public class Form_2 extends javax.swing.JPanel {
                     txtDate.setText(dateString);
                 }
                 if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                 }
                 if (txtPenaltyAmount.getText().equals("")) {
                     txtPenaltyAmount.setText("Penalty Amount");
@@ -328,7 +328,7 @@ public class Form_2 extends javax.swing.JPanel {
                     txtReason.setText("Reason");
                 }
                 if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                 }
             }
         });
@@ -348,7 +348,7 @@ public class Form_2 extends javax.swing.JPanel {
                     txtDate.setText(dateString);
                 }
                 if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                 }
             }
         });
@@ -374,7 +374,7 @@ public class Form_2 extends javax.swing.JPanel {
                     txtDate.setText(dateString);
                 }
                 if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                 }
             }
         });
@@ -448,7 +448,7 @@ public class Form_2 extends javax.swing.JPanel {
                     txtDate.setText(dateString);
                 }
                 if (txtID.getText().equals("")) {
-                    txtID.setText("Student_ID");
+                    txtID.setText("Student ID");
                 }
             }
         });

@@ -84,7 +84,6 @@ public class  Form_5 extends javax.swing.JPanel {
                         model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});
                     }
                 } else {
-                    // Search for matching Student_ID
                     for (Leave_Logs_Model leave : LeaveLogsRecords) {
                         if (leave.id.toLowerCase().contains(searchText.toLowerCase())) {
                             model.addRow(new Object[]{leave.id, leave.name,leave.reason, leave.out_date,leave.out_time, leave.in_date,leave.in_time});

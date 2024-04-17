@@ -1,12 +1,12 @@
 package com.entry_exit_system.form;
 
 import com.entry_exit_system.model.Model_Card;
-import com.entry_exit_system.model.PenaltyBanModel;
 import com.entry_exit_system.model.PendingLeaveModel;
 import com.entry_exit_system.model.StatusType;
 import com.entry_exit_system.swing.ScrollBar;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,6 +71,7 @@ public class Form_Home extends javax.swing.JPanel {
                 refreshTable();
             }
         });
+        table.getColumnModel().getColumn(4).setCellRenderer(new ApprovedStatusRenderer());
         // Start the timer
         autoUpdateTimer.start();
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -81,6 +82,37 @@ public class Form_Home extends javax.swing.JPanel {
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         pendingLeaveList.forEach((pendingLeave)->{table.addRow(new Object[]{pendingLeave.id, pendingLeave.name, pendingLeave.fromDate, pendingLeave.toDate, StatusType.APPROVED} );});
     }
+
+    // Custom cell renderer for "Status" column
+    class ApprovedStatusRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (value != null && value.equals(StatusType.APPROVED)) {
+                // Set text color to green and make it bold
+                cellComponent.setForeground(Color.GREEN);
+                Font originalFont = cellComponent.getFont();
+                Font boldFont = new Font(originalFont.getName(), Font.BOLD, originalFont.getSize());
+                cellComponent.setFont(boldFont);
+                // Align text to center
+                ((JLabel) cellComponent).setHorizontalAlignment(SwingConstants.CENTER);
+            } else {
+                // Reset text color and font for other values
+                cellComponent.setForeground(table.getForeground());
+                cellComponent.setFont(table.getFont());
+            }
+
+            // Remove background highlight
+            if (isSelected) {
+                cellComponent.setBackground(Color.white);
+            } else {
+                cellComponent.setBackground(Color.white);
+            }
+
+            return cellComponent;
+        }
+    }
+
     private void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear existing rows
@@ -189,11 +221,13 @@ public class Form_Home extends javax.swing.JPanel {
                                                 .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-//                                                .addComponent(txtPenaltyAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(addButton))
-                                .addGap(20, 20, 20))
-        ));
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(addButton) // Moved addButton to the right
+                                        )
+                                )
+                                .addGap(20, 20, 20)
+                        )
+        );
 
         panelBorder1Layout.setVerticalGroup(
                 panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,11 +240,11 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                                        .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addButton)
-                                .addGap(20, 20, 20))
+                                        .addComponent(txtTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addButton) // Moved addButton to the right
+                                )
+                                .addGap(20, 20, 20)
+                        )
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -233,6 +267,46 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(20, 20, 20))
         );
+        txtID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtID.getText().equals("Student ID")) {
+                    txtID.setText("");
+                }
+                if (txtFrom.getText().equals("")) {
+                    txtFrom.setText("From");
+                }
+                if (txtTo.getText().equals("")) {
+                    txtTo.setText("To");
+                }
+            }
+        });
+        txtFrom.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtFrom.getText().equals("From")) {
+                    txtFrom.setText("");
+                }
+                if (txtFrom.getText().equals("")) {
+                    txtFrom.setText("Student ID");
+                }
+                if (txtTo.getText().equals("")) {
+                    txtTo.setText("To");
+                }
+            }
+        });
+        txtTo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student ID");
+                }
+                if (txtFrom.getText().equals("")) {
+                    txtFrom.setText("From");
+                }
+                if (txtTo.getText().equals("To")) {
+                    txtTo.setText("");
+                }
+            }
+        });
+
     }// </editor-fold>//GEN-END:initComponents
 
 
