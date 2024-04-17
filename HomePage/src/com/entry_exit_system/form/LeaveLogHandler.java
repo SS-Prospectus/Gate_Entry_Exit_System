@@ -99,7 +99,9 @@ public class LeaveLogHandler {
                 JOptionPane.showMessageDialog(null, "No Approved Leaves Found, Penalty added of 500Rs, You can enter");
                 HashMap<String, String> emailIds= JDBC.getEmailIds(id);
                 if (emailIds.isEmpty()) return;
-                mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + id + ") has entered the campus");
+                mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (ID: " + id + ") has entered the campus");
+                mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + "has entered the campus");
+
                 return;
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);
@@ -107,8 +109,8 @@ public class LeaveLogHandler {
             JOptionPane.showMessageDialog(null, "Entry Successful");
             HashMap<String, String> emailIds= JDBC.getEmailIds(id);
             if (emailIds.isEmpty()) return;
-            mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + id + ") has entered the campus");
-//            mailService.sendMailTo(emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + "has entered the campus");
+            mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (ID: " + id + ") has entered the campus");
+            mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + "has entered the campus");
 
         }catch (SQLException e){
             e.printStackTrace();
