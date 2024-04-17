@@ -16,7 +16,7 @@ public class JDBC {
         try {
             connection = initConnection();
             try {
-                runTestQuery(connection);
+                getTimeLimits(connection);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -37,7 +37,7 @@ public class JDBC {
         return connection;
     }
 
-    public static void runTestQuery(Connection connection) throws SQLException {
+    public static void getTimeLimits(Connection connection) throws SQLException {
         String sql = "SELECT in_time_limit, out_time FROM TimeLimits";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
