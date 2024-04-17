@@ -147,24 +147,7 @@ public class  Form_1 extends javax.swing.JPanel {
         txtInDate = new javax.swing.JTextField("In Date");
         txtDestination = new javax.swing.JTextField("Destination");
 
-//        JButton addButton = new JButton("Add Data");
-//        addButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Reset the text fields to their original values
-//                txtName.setText("Name");
-//                txtID.setText("ID");
-//                txtReason.setText("Reason");
-//                txtOutDate.setText("Out Date");
-//                txtInDate.setText("In Date");
-//
-//            }
-//        });
-
         panel = new javax.swing.JLayeredPane();
-        card1 = new com.entry_exit_system.component.Card();
-        card2 = new com.entry_exit_system.component.Card();
-        card3 = new com.entry_exit_system.component.Card();
         panelBorder1 = new com.entry_exit_system.swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         spTable = new javax.swing.JScrollPane();
@@ -173,18 +156,6 @@ public class  Form_1 extends javax.swing.JPanel {
         setBackground(new java.awt.Color(242, 242, 242));
 
         panel.setLayout(new java.awt.GridLayout(1, 0, 0, 0));
-
-//        card1.setColor1(new java.awt.Color(142, 142, 250));
-//        card1.setColor2(new java.awt.Color(123, 123, 245));
-//        panel.add(card1);
-//
-//        card2.setColor1(new java.awt.Color(186, 123, 247));
-//        card2.setColor2(new java.awt.Color(167, 94, 236));
-//        panel.add(card2);
-//
-//        card3.setColor1(new java.awt.Color(241, 208, 62));
-//        card3.setColor2(new java.awt.Color(211, 184, 61));
-//        panel.add(card3);
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -261,9 +232,6 @@ public class  Form_1 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.entry_exit_system.component.Card card1;
-    private com.entry_exit_system.component.Card card2;
-    private com.entry_exit_system.component.Card card3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane panel;
     private com.entry_exit_system.swing.PanelBorder panelBorder1;

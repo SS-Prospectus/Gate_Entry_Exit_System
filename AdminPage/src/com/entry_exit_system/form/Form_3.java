@@ -191,10 +191,8 @@ public class Form_3 extends javax.swing.JPanel {
                                         .addComponent(jLabel1)
                                         .addComponent(spTable)
                                         .addGroup(panelBorder1Layout.createSequentialGroup()
-
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-
                                                 .addComponent(txtReason, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(20, 20, 20))
         );
