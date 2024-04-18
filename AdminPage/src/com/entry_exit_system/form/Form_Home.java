@@ -285,8 +285,8 @@ public class Form_Home extends javax.swing.JPanel {
                 if (txtFrom.getText().equals("From")) {
                     txtFrom.setText("");
                 }
-                if (txtFrom.getText().equals("")) {
-                    txtFrom.setText("Student ID");
+                if (txtID.getText().equals("")) {
+                    txtID.setText("Student ID");
                 }
                 if (txtTo.getText().equals("")) {
                     txtTo.setText("To");
