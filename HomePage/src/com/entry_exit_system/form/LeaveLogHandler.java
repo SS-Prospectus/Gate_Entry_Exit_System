@@ -49,7 +49,9 @@ public class LeaveLogHandler {
             JDBC.updateInOut(studentId,"out");
             JOptionPane.showMessageDialog(null, "Leave Started Successfully");
             HashMap<String, String> emailIds= JDBC.getEmailIds(studentId);
-            if (emailIds.isEmpty()) return;
+            if (emailIds.isEmpty()) {
+                System.out.println("No Mail");
+                return;}
             mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (Id: " + studentId + ") has left the campus");
             mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + studentId + " has left the campus");
         } catch (SQLException e) {
@@ -98,17 +100,20 @@ public class LeaveLogHandler {
                 JDBC.insertPenalty(id,log_id,500.00,inDate,"Entry on inappropriate time");
                 JOptionPane.showMessageDialog(null, "No Approved Leaves Found, Penalty added of 500Rs, You can enter");
                 HashMap<String, String> emailIds= JDBC.getEmailIds(id);
-                if (emailIds.isEmpty()) return;
+                if (emailIds.isEmpty()) {
+                    System.out.println("No Mail");
+                    return;}
                 mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (ID: " + id + ") has entered the campus");
                 mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + " has entered the campus");
-
                 return;
             }
             JDBC.updateLogTimes(log_id,inTime,inDate);
             JDBC.updateInOut(id,"in");
             JOptionPane.showMessageDialog(null, "Entry Successful");
             HashMap<String, String> emailIds= JDBC.getEmailIds(id);
-            if (emailIds.isEmpty()) return;
+            if (emailIds.isEmpty()) {
+                System.out.println("No Mail");
+                return;}
             mailService.sendMailTo((String) emailIds.keySet().toArray()[0],"Gate Entry-Exit Management System","Your ward (ID: " + id + ") has entered the campus");
             mailService.sendMailTo((String) emailIds.values().toArray()[0],"Gate Entry-Exit Management System","Student " + id + "has entered the campus");
 

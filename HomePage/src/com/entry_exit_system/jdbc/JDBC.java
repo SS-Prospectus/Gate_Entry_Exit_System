@@ -90,7 +90,7 @@ public class JDBC {
         pstmt.setString(1, id);
         ResultSet resultSet = pstmt.executeQuery();
         if(resultSet.next()){
-                return resultSet.getBoolean("banned");
+                return resultSet.getBoolean(1);
         }
         return false;
     }
