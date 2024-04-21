@@ -76,7 +76,16 @@ public class BannedStudentsHandler {
 
             JOptionPane.showMessageDialog(null, "Data added successfully!");
 
+            String updateSql = "UPDATE student SET banned = '1' WHERE ID = ?";
+            pstmt = JDBC.connection.prepareStatement(updateSql);
+            pstmt.setString(1, id);
+            int rowsUpdated = pstmt.executeUpdate();
 
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Student status updated successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "No student found with ID: " + id);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
