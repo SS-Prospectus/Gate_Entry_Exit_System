@@ -37,6 +37,16 @@ public class BannedStudentsHandler {
             } else {
                 JOptionPane.showMessageDialog(null, "No data found to delete for student ID: " + id);
             }
+            String updateSql = "UPDATE student SET banned = '0' WHERE ID = ?";
+            pstmt = JDBC.connection.prepareStatement(updateSql);
+            pstmt.setString(1, id);
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Student status updated successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "No student found with ID: " + id);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
