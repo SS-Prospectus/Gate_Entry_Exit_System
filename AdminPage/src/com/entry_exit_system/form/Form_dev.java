@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Form_dev extends JPanel {
@@ -56,7 +54,7 @@ public class Form_dev extends JPanel {
     }
 
     private void addHyperlink(String text, String url, String imagePath, int y, int x) {
-        java.net.URL imageURL = getClass().getResource(imagePath);
+        URL imageURL = getClass().getResource(imagePath);
         if (imageURL != null) {
             ImageIcon icon = new ImageIcon(imageURL);
             JLabel imageLabel = new JLabel(icon);

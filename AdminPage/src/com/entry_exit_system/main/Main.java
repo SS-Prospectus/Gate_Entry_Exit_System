@@ -21,6 +21,7 @@ public class Main extends javax.swing.JFrame {
     private Form_4 form4;
     private Form_5 form5;
     private Form_6 form6;
+    private Form_dev form_dev;
 
     public Main() {
         initComponents();
@@ -33,6 +34,7 @@ public class Main extends javax.swing.JFrame {
         form4 =new Form_4();
         form5 =new Form_5();
         form6 =new Form_6();
+        form_dev = new Form_dev();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -51,6 +53,8 @@ public class Main extends javax.swing.JFrame {
                     setForm(form5);
                 } else if (index == 6) {
                     setForm(form6);
+                } else if (index == 10) {
+                    setForm(form_dev);
                 }
             }
         });
